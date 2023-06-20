@@ -1,18 +1,21 @@
-import 'dart:convert';
-
-import 'package:eportfolio_mobile/controllers/auth.dart';
+import 'package:eportfolio_mobile/routes/route_names.dart';
+import 'package:eportfolio_mobile/views/pages/TABSmain/TABcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../controllers/api/endpoint.dart';
-import '../../controllers/login.dart';
+import '../../../controllers/login-ctrl.dart';
 
 class LoginPage extends StatelessWidget {
   final loginCtrl = Get.put(LoginController());
+  final tabController = Get.put(TabControllers());
+  late SharedPreferences prefs ;
+  final jwt = ''.obs;
 
-
+  Future<void> init() async {
+    prefs = await SharedPreferences.getInstance();
+    jwt.value = prefs.getString('jwt') ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,31 +50,37 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: ()  {
+                // await loginCtrl.loginWithEmail();
+                if (jwt != null) {
+                  // Pengguna memiliki JWT, arahkan ke halaman "Home"
+                  Get.offAllNamed(RouteNames.tabMain);
+                  tabController.changeTab(2);
+                } else {
+                  // JWT masih null, lakukan pengalihan ke halaman lain
+                  Get.offAllNamed(RouteNames.login);
+                }
 
-              loginCtrl.loginWithEmail();
-              print(loginCtrl.userId);
-// wahradar511@gmail.com
-    // final response = await post(Uri.parse(Endpoint.login),
-    //     headers: {"Content-Type": "application/json"},
-    //     body: jsonEncode(requestBody));
-    //
-    // if (response.statusCode != 200) {
-    //   var data = json.decode(response.body);
-    //   if (data == 'Wrong Password'){
-    //     wrongpass = true;
-    //   } else if (data == 'User not Found'){
-    //     notfound = true;
-    //   }
-    // } else {
-    //   var data = json.decode(response.body);
-    // print(data);
-    // Auth.fromJson(data);
-    //
-    // }
+
                 // Lakukan proses login dengan email dan password yang diinputkan
               },
               child: Text('Login'),
+            ),
+            SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Jika belum punya akun,'),
+                TextButton(
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => SignUpPage()),
+                    // );
+                  },
+                  child: Text('Sign Up'),
+                ),
+              ],
             ),
           ],
         ),
@@ -79,3 +88,4 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+

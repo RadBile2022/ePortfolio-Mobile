@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,8 @@ class LoginController extends GetxController {
 
   final jwt = ''.obs;
   final userId = ''.obs;
+  final wrongpass = false.obs;
+  final notfound = false.obs;
 
   @override
   void onInit() {
@@ -41,7 +44,15 @@ class LoginController extends GetxController {
       headers: headers,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode != 200) {
+      final jsonResponse = jsonDecode(response.body);
+      if(jsonResponse == "Wrong Password"){
+        print('object');
+        wrongpass.value = true;
+      }else if (jsonResponse == "User not found"){
+        notfound.value = true;
+      }
+    }else{
       final jsonResponse = jsonDecode(response.body);
       jwt.value = jsonResponse['jwt'];
       userId.value = jsonResponse['userId'];
