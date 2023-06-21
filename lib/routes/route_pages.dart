@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class PageRouteApp {
   static final pages = [
     GetPage(name: RouteNames.splash, page: ()=> SplashScreen()),
-    GetPage(name: Endpoint.login, page: ()=>LoginPage()),
+    GetPage(name: RouteNames.login, page: ()=>LoginPage()),
 
     GetPage(name: RouteNames.tabMain, page: ()=> TabsMain()),
     GetPage(name: RouteNames.home, page: ()=>  Home()),

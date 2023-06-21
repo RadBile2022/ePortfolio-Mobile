@@ -4,6 +4,7 @@ import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class GetUser {
   var id, username, profilePicture, followings = [], followers = [];
 
@@ -101,11 +102,10 @@ class GetUserController extends GetxController  {
   var getUser = GetUser().obs;
   var postLoading = true.obs;
 
-
   @override
   void onInit() {
-    readData();
     super.onInit();
+    readData();
   }
 
   readData() async {
@@ -124,8 +124,12 @@ class GetUserController extends GetxController  {
   }
 
   Future<GetUser?> serviceGetUser() async {
+
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    final userId = prefs.getString('userId');
     final response = await get(
-      Uri.parse('${Endpoint.baseUrl}/${Endpoint.getUser}/63dc6409165337cbbf8a1d8bs'),
+      Uri.parse('${Endpoint.getUser}/$userId'),
       headers: {"Content-Type": "application/json"},
     );
 

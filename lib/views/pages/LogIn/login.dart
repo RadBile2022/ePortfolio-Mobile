@@ -1,4 +1,5 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
+import 'package:eportfolio_mobile/views/pages/LogIn/LogInCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/TABSmain/TABcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,15 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controllers/login-ctrl.dart';
 
 class LoginPage extends StatelessWidget {
-  final loginCtrl = Get.put(LoginController());
-  final tabController = Get.put(TabControllers());
-  late SharedPreferences prefs ;
-  final jwt = ''.obs;
-
-  Future<void> init() async {
-    prefs = await SharedPreferences.getInstance();
-    jwt.value = prefs.getString('jwt') ?? '';
-  }
+  final loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +22,7 @@ class LoginPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller: loginCtrl.emailController,
+              controller: loginController.emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -39,7 +32,7 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             TextField(
-              controller: loginCtrl.passwordController,
+              controller: loginController.passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
@@ -51,16 +44,8 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: ()  {
-                // await loginCtrl.loginWithEmail();
-                if (jwt != null) {
-                  // Pengguna memiliki JWT, arahkan ke halaman "Home"
-                  Get.offAllNamed(RouteNames.tabMain);
-                  tabController.changeTab(2);
-                } else {
-                  // JWT masih null, lakukan pengalihan ke halaman lain
-                  Get.offAllNamed(RouteNames.login);
-                }
 
+                loginController.loginWithEmail();
 
                 // Lakukan proses login dengan email dan password yang diinputkan
               },

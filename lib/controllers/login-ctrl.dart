@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginController extends GetxController {
+class LoginControllerssss extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 

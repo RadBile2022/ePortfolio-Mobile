@@ -8,48 +8,20 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-void main() {
-  runApp(GetMaterialApp(
-    home: Home(),
-  ));
-}
-
-class Home extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
   var getUserCtrl = Get.put(GetUserController());
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TabBar Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProfilePage(),
-    );
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  var getUserCtrl = Get.find<GetUserController>();
-// void jalan ()async {
-//   var a = GetUserController();
-//    getUserCtrl = Get.put(GetUserController());
-// }
-
-  late GetUser currentUser = getUserCtrl.getUser.value;
 
   final List<Tab> myTabs = [
-    Tab(text: 'Tab 1'),
-    Tab(text: 'Tab 2s'),
-    Tab(text: 'Tab 3'),
+    Tab(text: 'About Me'),
+    Tab(text: 'Posts'),
+    Tab(text: 'Articles'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    getUserCtrl.getUser.listen((p0) {
-      print(p0);
-    });
     return Scaffold(
+      appBar: AppBar(title: Text('Profile'),),
       body: DefaultTabController(
         length: myTabs.length,
         child: CustomScrollView(
@@ -70,7 +42,8 @@ class ProfilePage extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 background: GetBuilder<GetUserController>(
                   builder: (controller) {
-                    late GetUser currentUser = getUserCtrl.getUser.value;
+                    final GetUser currentUser = controller.getUser.value;
+
                     return Column(
                       children: [
                         Profile_Bar(
@@ -94,9 +67,14 @@ class ProfilePage extends StatelessWidget {
               child: TabBarView(
                 children: myTabs.map((Tab tab) {
                   return Center(
-                      child: AboutMeTab(
-                    currentUser: currentUser,
-                  ));
+                    child: GetBuilder<GetUserController>(
+                      builder: (controller) {
+                        return AboutMeTab(
+                          currentUser: controller.getUser.value,
+                        );
+                      },
+                    ),
+                  );
                 }).toList(),
               ),
             ),
@@ -356,7 +334,6 @@ saya sangat menyukai dunia pemrograman karena pertama kali belajar pemrograman d
       about: true,
     ),
   ];
-
 }
 
 /*

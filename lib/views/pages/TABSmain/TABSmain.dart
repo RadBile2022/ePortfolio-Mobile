@@ -1,5 +1,6 @@
 
 import 'package:eportfolio_mobile/views/account.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
 import 'package:eportfolio_mobile/views/pages/PROFILE.dart';
 import 'package:eportfolio_mobile/views/pages/TABSmain/TABcontroller.dart';
@@ -21,6 +22,7 @@ class TabsMain extends StatelessWidget {
                 Home(),
                 // CustomerListPage(),
                 Account(),
+                ProfilePage(),
 
               ],
             )),
