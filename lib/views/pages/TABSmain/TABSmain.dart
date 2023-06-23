@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 
 class TabsMain extends StatelessWidget {
   final tabController = Get.put(TabControllers());
-  var getUserCtrl = Get.put(GetUserController());
 
 
   @override

@@ -1,5 +1,7 @@
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/views/components/profile_bar.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
@@ -9,10 +11,11 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 class ProfilePage extends StatelessWidget {
-  var getUserCtrl = Get.find<GetUserController>();
 
   final List<Tab> myTabs = [
     Tab(text: 'About Me'),
+    Tab(text: 'Posts'),
+    Tab(text: 'Articles'),   Tab(text: 'About Me'),
     Tab(text: 'Posts'),
     Tab(text: 'Articles'),
   ];
@@ -23,67 +26,74 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Profile'),
       ),
-      body: DefaultTabController(
+      body:
+
+
+      DefaultTabController(
         length: myTabs.length,
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              floating: true,
-              expandedHeight: 350,
+        child: ListView(
+          children: [
+            // GetBuilder<GetUserController>(
+            //   builder: (controller) {
+            //     final GetUser currentUser = controller.getUser.value;
+            //
+            //     return Profile_Bar(
+            //       profilePicture: currentUser.profilePicture,
+            //       name: currentUser.username,
+            //       role: currentUser.role,
+            //       major: currentUser.major,
+            //       nim: currentUser.nim,
+            //       interest: currentUser.interest,
+            //       academicField: currentUser.academicField,
+            //       following: currentUser.followings,
+            //       followers: currentUser.followers,
+            //     );
+            //   },
+            // ),
+            SizedBox(height: 10,),
 
-              flexibleSpace: FlexibleSpaceBar(
-                background: GetBuilder<GetUserController>(
-                  builder: (controller) {
-                    final GetUser currentUser = controller.getUser.value;
-
-                    return Column(
-                      children: [
-                        Profile_Bar(
-                          profilePicture: currentUser.profilePicture,
-                          name: currentUser.username,
-                          role: currentUser.role,
-                          major: currentUser.major,
-                          nim: currentUser.nim,
-                          interest: currentUser.interest,
-                          academicField: currentUser.academicField,
-                          following: currentUser.followings,
-                          followers: currentUser.followers,
-                        ),
-                      ],
-                    );
-                  },
+                TabBar(
+                  isScrollable: true,
+                  labelColor: Colors.black,
+                  tabs: myTabs,
                 ),
-              ),
-            ),
-            SliverFillRemaining(
-              child: DefaultTabController(
-                length: myTabs.length, // Jumlah tab
-                child: Scaffold(
-                  appBar: AppBar(
-                    toolbarHeight: 0,
-                    bottom: TabBar(
-                      tabs: myTabs,
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height - kToolbarHeight - kBottomNavigationBarHeight - 70, // Atur tinggi sesuai kebutuhan
+              child: TabBarView(
+                children: [
+                  // GetPostsPage(),
+
+                  Center(
+                    child: GetBuilder<GetPostsController> (
+                      builder: (controller){
+
+                        // return Text('');
+                        return PostsTab(getPostsAll: controller.getPostsList);
+                      },
                     ),
                   ),
-                  body: TabBarView(children: [
-                    Center(
-                      child: GetBuilder<GetUserController>(
-                        builder: (controller) {
-                          return AboutMeTab(
-                            currentUser: controller.getUser.value,
-                          );
-                        },
-                      ),
+                  Center(
+                    child: GetBuilder<GetUserController>(
+                      builder: (controller) {
+                        return AboutMeTab(
+                          currentUser: controller.getUser.value,
+                        );
+                      },
                     ),
-                    Center(
-                      child: Text('Hallo Dek'),
-                    ),Center(
-                      child: Text('Hallo Dek'),
-                    ),
-                  ]),
-                ),
+                  ),
+
+                  Center(
+                    child: Text('Hello Dek'),
+                  ), Center(
+                    child: Text('Hello Dek'),
+                  ),
+                  Center(
+                    child: Text('Hello Dek'),
+                  ),  Center(
+                    child: Text('Hello Dek'),
+                  ),
+                ],
               ),
             ),
           ],
@@ -91,6 +101,24 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class PostsTab extends StatelessWidget {
+  final List<dynamic> getPostsAll;
+  PostsTab({super.key,required this.getPostsAll});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+          itemCount: getPostsAll.length,
+          itemBuilder: (context, index){
+            var getPost = getPostsAll[index];
+            return Text(getPost.toString());
+          })
+    );
+  }
+
 }
 
 class AboutMeTab extends StatelessWidget {
@@ -343,165 +371,3 @@ saya sangat menyukai dunia pemrograman karena pertama kali belajar pemrograman d
     ),
   ];
 }
-
-/*
-class ProfilePage extends StatefulWidget {
-  var getUserCtrl = Get.put(GetUserController());
-
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  var getUserCtrl = Get.find<GetUserController>();
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Hallo Dek')),
-        body:CustomScrollView(
-          slivers:<Widget> [
-            SliverAppBar(
-              title: Text('App Bar Title'),
-              pinned: true,
-              bottom: TabBar(
-                tabs: [
-                  Tab(text: 'Tab 1'),
-                  Tab(text: 'Tab 2'),
-                  Tab(text: 'Tab 3'),
-                ],
-              ),
-              // Konfigurasi SliverAppBar lainnya
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return Container(
-                    color: index.isOdd ? Colors.white : Colors.black12,
-                    height: 100.0,
-                    child: Center(
-                      child: Text('$index', textScaleFactor: 5),
-                    ),
-                  );
-                },
-                childCount: 20,
-              ),
-            ),
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              floating: true,
-              snap: true,
-
-              expandedHeight: 300,
-              flexibleSpace: FlexibleSpaceBar(
-                  background: Obx(
-                        () => Column(
-                      children: [
-                        Profile_Bar(
-                            profilePicture:
-                            '${Endpoint.baseUrl}/${getUserCtrl.getUser.value.profilePicture}',
-                            name: getUserCtrl.getUser.value.username,
-                            role: getUserCtrl.getUser.value.role,
-                            major: getUserCtrl.getUser.value.major,
-                            nim: getUserCtrl.getUser.value.nim,
-                            interest: getUserCtrl.getUser.value.interest,
-                            academicField: getUserCtrl.getUser.value.academicField,
-                            following: getUserCtrl.getUser.value.followings,
-                            followers: getUserCtrl.getUser.value.followers),
-                      ],
-                    ),
-                  )),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return AboutMeTab();
-                },
-              ),
-            ),
-          ],
-        )
-
-
-
-      // NestedScrollView(
-      //   controller: getUserCtrl.scrollCtrl,
-      //   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-      //     return [
-      //       SliverAppBar(
-      //         backgroundColor: Colors.white,
-      //         floating: true,
-      //         snap: true,
-      //         expandedHeight: 300,
-      //         flexibleSpace: FlexibleSpaceBar(
-      //             background: Obx(
-      //           () => Column(
-      //             children: [
-      //               Profile_Bar(
-      //                   profilePicture:
-      //                       '${Endpoint.baseUrl}/${getUserCtrl.getUser.value.profilePicture}',
-      //                   name: getUserCtrl.getUser.value.username,
-      //                   role: getUserCtrl.getUser.value.role,
-      //                   major: getUserCtrl.getUser.value.major,
-      //                   nim: getUserCtrl.getUser.value.nim,
-      //                   interest: getUserCtrl.getUser.value.interest,
-      //                   academicField: getUserCtrl.getUser.value.academicField,
-      //                   following: getUserCtrl.getUser.value.followings,
-      //                   followers: getUserCtrl.getUser.value.followers),
-      //             ],
-      //           ),
-      //         )),
-      //       ),
-      //       SliverPersistentHeader(
-      //         delegate: _SliverAppBarDelegate(
-      //           TabBar(
-      //             controller: _tabController,
-      //             labelColor: Colors.black87,
-      //             unselectedLabelColor: Colors.grey,
-      //             tabs: [
-      //               Tab(text: 'Tab 1'),
-      //               Tab(text: 'Tab 2'),
-      //               Tab(text: 'Tab 3'),
-      //             ],
-      //           ),
-      //         ),
-      //         pinned: true,
-      //       ),
-      //     ];
-      //   },
-      //   body: TabBarView(
-      //     controller: _tabController,
-      //     children: [
-      //       AboutMeTab(),
-      //       Container(
-      //         child: Center(
-      //           child: Text('Tab 2 content'),
-      //         ),
-      //       ),
-      //       Container(
-      //         child: Center(
-      //           child: Text('Tab 3 content'),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-    );
-  }
-}
-*/

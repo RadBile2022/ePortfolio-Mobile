@@ -37,7 +37,7 @@ class Home extends StatelessWidget {
                     },
                     child: ClipOval(
                       child: Image.network(
-                        getUserCtrl.getUser.value.profilePicture,
+                        'https://avatars.githubusercontent.com/u/102400087?s=400&u=dc315d1370efc19d9568ea0e7ce644946e1a4dcb&v=4',
                         width: 60,
                         height: 60,
                         fit: BoxFit.cover,

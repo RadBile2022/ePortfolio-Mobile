@@ -3,12 +3,16 @@ import 'package:eportfolio_mobile/routes/route_pages.dart';
 import 'package:eportfolio_mobile/views/login.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/splash-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  Get.lazyPut(() => GetPostsController());
+  Get.lazyPut(() => GetUserController());
+  // Get.lazyPut(() => GetPostsController());
+  Get.put(GetPostsController());
+
   runApp(MyApp());
 }
 
