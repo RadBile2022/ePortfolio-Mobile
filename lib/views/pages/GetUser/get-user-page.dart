@@ -9,8 +9,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 class ProfilePage extends StatelessWidget {
-  var getUserCtrl = Get.put(GetUserController());
-
+  var getUserCtrl = Get.find<GetUserController>();
 
   final List<Tab> myTabs = [
     Tab(text: 'About Me'),
@@ -21,7 +20,9 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile'),),
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
       body: DefaultTabController(
         length: myTabs.length,
         child: CustomScrollView(
@@ -30,15 +31,8 @@ class ProfilePage extends StatelessWidget {
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               floating: true,
-              pinned: true,
-              expandedHeight: 300,
-              bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(50),
-                  // Sesuaikan tinggi dengan tinggi FlexibleSpaceBar
-                  child: TabBar(
-                    labelColor: Colors.black,
-                    tabs: myTabs,
-                  )),
+              expandedHeight: 350,
+
               flexibleSpace: FlexibleSpaceBar(
                 background: GetBuilder<GetUserController>(
                   builder: (controller) {
@@ -64,18 +58,32 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SliverFillRemaining(
-              child: TabBarView(
-                children: myTabs.map((Tab tab) {
-                  return Center(
-                    child: GetBuilder<GetUserController>(
-                      builder: (controller) {
-                        return AboutMeTab(
-                          currentUser: controller.getUser.value,
-                        );
-                      },
+              child: DefaultTabController(
+                length: myTabs.length, // Jumlah tab
+                child: Scaffold(
+                  appBar: AppBar(
+                    toolbarHeight: 0,
+                    bottom: TabBar(
+                      tabs: myTabs,
                     ),
-                  );
-                }).toList(),
+                  ),
+                  body: TabBarView(children: [
+                    Center(
+                      child: GetBuilder<GetUserController>(
+                        builder: (controller) {
+                          return AboutMeTab(
+                            currentUser: controller.getUser.value,
+                          );
+                        },
+                      ),
+                    ),
+                    Center(
+                      child: Text('Hallo Dek'),
+                    ),Center(
+                      child: Text('Hallo Dek'),
+                    ),
+                  ]),
+                ),
               ),
             ),
           ],
@@ -179,7 +187,7 @@ class AboutMeTab extends StatelessWidget {
       runSpacing: 8.0,
       children: currentUser.skills
           .map(
-            (skill) => Outline_Btn_Component_About(skill, () {}, Colors.white),
+            (skill) => Outlined_Btn_Component_About(skill, () {}, Colors.white),
           )
           .toList(),
     );

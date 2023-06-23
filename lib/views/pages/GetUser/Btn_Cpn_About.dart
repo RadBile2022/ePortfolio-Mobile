@@ -45,13 +45,13 @@ class Elevated_Btn_Component_About extends StatelessWidget {
   }
 }
 
-class Outline_Btn_Component_About extends StatelessWidget {
+class Outlined_Btn_Component_About extends StatelessWidget {
   late final String? _titleButtonString;
   late final VoidCallback? _$onButtonPressed;
   late final Color? __backgroundButtonColor;
   late final Color? __foregroundButtonColor;
 
-  Outline_Btn_Component_About(
+  Outlined_Btn_Component_About(
     this._titleButtonString,
     this._$onButtonPressed,
     this.__backgroundButtonColor,
@@ -77,6 +77,45 @@ class Outline_Btn_Component_About extends StatelessWidget {
         style: const TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,
+          fontSize: 14.0,
+        ),
+      ),
+    );
+  }
+}
+
+class Outlined_Btn_Component_Generic extends StatelessWidget {
+  late final String? _titleButtonString;
+  late final VoidCallback? _$onButtonPressed;
+  late final Color? __backgroundButtonColor;
+  late final Color? __foregroundButtonColor;
+
+  Outlined_Btn_Component_Generic(
+      this._titleButtonString,
+      this._$onButtonPressed,
+      this.__backgroundButtonColor,
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+
+      onPressed: _$onButtonPressed,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: __backgroundButtonColor,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 9.0,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+          side: BorderSide(color: Colors.grey[900]!),
+        ),
+      ),
+      child: Text(
+        _titleButtonString!,
+        style: const TextStyle(
+          color: Colors.blueGrey,
           fontSize: 14.0,
         ),
       ),

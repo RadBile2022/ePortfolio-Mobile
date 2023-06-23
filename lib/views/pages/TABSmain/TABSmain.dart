@@ -1,5 +1,6 @@
 
 import 'package:eportfolio_mobile/views/account.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
 import 'package:eportfolio_mobile/views/pages/PROFILE.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 
 class TabsMain extends StatelessWidget {
   final tabController = Get.put(TabControllers());
+  var getUserCtrl = Get.put(GetUserController());
 
 
   @override

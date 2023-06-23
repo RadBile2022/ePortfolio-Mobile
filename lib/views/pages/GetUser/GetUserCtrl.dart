@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class GetUser {
   var id, username, profilePicture, followings = [], followers = [];
 
@@ -48,26 +49,27 @@ class GetUser {
 
   factory GetUser.fromJson(Map<String, dynamic> json) {
     return GetUser.instance(
-        id: json['_id'],
-        username: json['username'],
-        profilePicture: '${Endpoint.baseUrl}/${json['profilePicture']}',
-        followings: json['following'],
-        followers: json['followers'],
-        role: json['role'],
-        academicField: json['academicField'],
-        interest: json['interest'],
-        nim: json['nim'],
-        major: json['major'],
-        organization: json['organization'],
-        city: json['city'],
-        dateBirth: json['dateBirth'],
-        gender: json['gender'],
-        about: json['about'],
-        socialMedia: SocMed.fromJson(json['socialMedia']),
-        skills: json['skill'],
-        blockProfiles: json['blockProfile'],
-        createdAt: json['createdAt'],
-        email: json['email']);
+      id: json['_id'],
+      username: json['username'],
+      profilePicture: '${Endpoint.$$baseUrl}/${json['profilePicture']}',
+      followings: json['following'],
+      followers: json['followers'],
+      role: json['role'],
+      academicField: json['academicField'],
+      interest: json['interest'],
+      nim: json['nim'],
+      major: json['major'],
+      organization: json['organization'],
+      city: json['city'],
+      dateBirth: json['dateBirth'],
+      gender: json['gender'],
+      about: json['about'],
+      socialMedia: SocMed.fromJson(json['socialMedia']),
+      skills: json['skill'],
+      blockProfiles: json['blockProfile'],
+      createdAt: json['createdAt'],
+      email: json['email'],
+    );
   }
 
   @override
@@ -80,11 +82,21 @@ class SocMed {
   var linkedin, github, instagram, facebook, twitter;
 
   SocMed.instance(
-      this.linkedin, this.github, this.instagram, this.facebook, this.twitter);
+    this.linkedin,
+    this.github,
+    this.instagram,
+    this.facebook,
+    this.twitter,
+  );
 
   factory SocMed.fromJson(Map<String, dynamic> json) {
-    return SocMed.instance(json['linkedin'], json['github'], json['instagram'],
-        json['facebook'], json['twitter']);
+    return SocMed.instance(
+      json['linkedin'],
+      json['github'],
+      json['instagram'],
+      json['facebook'],
+      json['twitter'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -93,12 +105,12 @@ class SocMed {
       'github': github,
       'instagram': instagram,
       'facebook': facebook,
-      'twitter': twitter
+      'twitter': twitter,
     };
   }
 }
 
-class GetUserController extends GetxController  {
+class GetUserController extends GetxController {
   var getUser = GetUser().obs;
   var postLoading = true.obs;
 
@@ -111,11 +123,11 @@ class GetUserController extends GetxController  {
   readData() async {
     try {
       postLoading.value = true;
-      GetUser? _getUser = await serviceGetUser();
+      GetUser? _getUser = await getUserService();
       if (_getUser != null) {
         getUser(_getUser);
       } else {
-        throw Exception('Failde to load Products');
+        throw Exception('Failed to load User');
       }
     } finally {
       postLoading.value = false;
@@ -123,25 +135,23 @@ class GetUserController extends GetxController  {
     update();
   }
 
-  Future<GetUser?> serviceGetUser() async {
-
+  Future<GetUser?> getUserService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     final userId = prefs.getString('userId');
     final response = await get(
       Uri.parse('${Endpoint.getUser}/$userId'),
-      headers: {"Content-Type": "application/json"},
+      headers: Endpoint.$httpHeader,
     );
 
     if (response.statusCode == 200) {
       var aboutMe = jsonDecode(response.body);
       return GetUser.fromJson(aboutMe);
     } else {
-      throw Exception('Failde to load Products');
+      throw Exception('Failed to load User');
     }
   }
 }
-
 
 // topTabCtrl = AnimationController(
 //   vsync: this,

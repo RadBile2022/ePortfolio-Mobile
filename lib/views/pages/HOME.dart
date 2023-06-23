@@ -1,21 +1,78 @@
+import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/TABSmain/TABcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class Home extends StatelessWidget {
-   Home({super.key});
+  final tabController = Get.find<TabControllers>();
 
+  var getUserCtrl = Get.find<GetUserController>();
+
+  Home({super.key});
+  var imageUrls=[
+  'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone12-digitalmat-gallery-1-202111_GEO_US?wid=728&hei=666&fmt=png-alpha&.v=1635980933000',
+  'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone12-digitalmat-gallery-3-202111_GEO_US?wid=728&hei=666&fmt=png-alpha&.v=1636673255000',
+  'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone12-digitalmat-gallery-6-202111?wid=728&hei=666&fmt=png-alpha&.v=1635178710000'
+  ];
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      backgroundColor: Colors.grey,
         appBar: AppBar(
-          title: Text('Pizza Delivery Order'),
+          title: Text('ePortfolio GFT ACADEMY'),
           automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
             child: Column(
           children: [
+            Card_Component_White(
+                            () {},
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      tabController.changeTab(2);
+                    },
+                    child: ClipOval(
+                      child: Image.network(
+                        getUserCtrl.getUser.value.profilePicture,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    margin: const EdgeInsets.only(left: 16),
+                    width: 250,
+                    child:Outlined_Btn_Component_Generic(
+                        'Apa yang Anda Pikirkan ?', () {}, Colors.white),
+                  )
+
+
+                ],
+              ),
+            ),
+            SizedBox(height: 8.0),
+            Card_Component_White(() { },SizedBox(height : 150, child: ListView(
+                scrollDirection: Axis.horizontal,
+
+                children: imageUrls.map((url) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      color: Colors.blue, // Ganti dengan warna latar belakang yang diinginkan
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(url),
+                      ),
+                    ),
+                  )
+                  ;
+                }).toList()),),),
             Row(
               children: [
                 Expanded(
@@ -24,14 +81,14 @@ class Home extends StatelessWidget {
                   child: Container(
                       decoration: ___boxDecor(),
                       child: Image.network(
-                          'https://img.freepik.com/premium-vector/pizza-delivery-man-cartoon-logo_12402-683.jpg?w=740')),
+                          'https://api-portfolio.gft.academy/storage/images/fileAlbum_1676562854739.jpg')),
                 ))
               ],
             ),
             Row(
               children: [
-                _expandedCard(paddingLeftTop, $pressProduct,
-                    Icons.cases_sharp, Colors.amber, 'Products', Colors.black),
+                _expandedCard(paddingLeftTop, $pressProduct, Icons.cases_sharp,
+                    Colors.amber, 'Products', Colors.black),
                 _expandedCard(
                     paddingRightTop,
                     $pressOrder,
@@ -71,7 +128,7 @@ class Home extends StatelessWidget {
     // Get.toNamed(RouteName.customerPage);
   }
 
-  void $pressShop(){}
+  void $pressShop() {}
 
   static const padding =
       EdgeInsets.only(top: 32, bottom: 16, right: 16, left: 16);
@@ -84,14 +141,14 @@ class Home extends StatelessWidget {
   static const paddingRightBottom =
       EdgeInsets.only(top: 8, bottom: 16, right: 16, left: 8);
 
-  Expanded _expandedCard(EdgeInsets padding, void Function() pressButton, IconData icon,
-      Color iconColor, String title, Color textColor) {
+  Expanded _expandedCard(EdgeInsets padding, void Function() pressButton,
+      IconData icon, Color iconColor, String title, Color textColor) {
     return Expanded(
       child: Padding(
         padding: padding,
         child: Container(
           decoration: ___boxDecor(),
-          child:  TextButton(
+          child: TextButton(
               onPressed: pressButton,
               child: ___colContent(icon, iconColor, title, textColor)),
         ),

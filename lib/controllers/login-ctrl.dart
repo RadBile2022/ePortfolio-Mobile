@@ -31,7 +31,7 @@ class LoginControllerssss extends GetxController {
   }
 
   Future<void> loginWithEmail() async {
-    var url = Uri.parse(Endpoint.login);
+    var url = Uri.parse(Endpoint.$$login);
     Map<String, dynamic> body = {
       'email': emailController.text.trim(),
       'password': passwordController.text

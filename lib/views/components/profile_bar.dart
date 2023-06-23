@@ -21,7 +21,9 @@ class Profile_Bar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Container(
+      children: [
+
+        Container(
         margin: const EdgeInsets.only(top: 10),
         height: 150,
         width: 150,

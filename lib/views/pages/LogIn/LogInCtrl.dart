@@ -22,7 +22,7 @@ class LoginController extends GetxController {
        final body = {"email": "wahradar511@gmail.com", "password": "123simpan"};
 
       final response = await post(
-        Uri.parse(Endpoint.login),
+        Uri.parse(Endpoint.$$login),
         headers: Endpoint.$httpHeader,
         body: jsonEncode(body),
       );
