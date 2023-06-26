@@ -5,6 +5,7 @@ import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:eportfolio_mobile/views/splash-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,15 +15,16 @@ void main() {
   // Get.lazyPut(() => GetPostsController());
   Get.put(GetPostsController());
   Get.put(GetArticlesController());
-
+  Get.put(HomeController());
+  dummyTest();
   runApp(MyApp());
 }
 
 void dummyTest() async {
-  GetPostsController a = Get.put(GetPostsController());
+  var a = Get.put(HomeController());
 
   await a.readData();
-  print(a.getPostsList);
+  print(a.all);
 
   // 2 debug, object dan array
   // a.getPostsService();

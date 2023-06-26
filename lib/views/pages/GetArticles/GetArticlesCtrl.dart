@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+
 class GetArticles {
   var id, userId, title, desc, coverArticle, isPublic;
   var tags = [];
@@ -160,3 +163,25 @@ class GetArticlesController extends GetxController {
 // "comments": [],
 // "updatedAt": "2023-03-03T05:58:36.023Z",
 // "__v": 0
+
+
+// {
+// "_id": "63e038aa165337cbbf8a455e",
+// "userId": "6397fe5fbfe53e713a1c10d8",
+// "title": "Teknik Hilirisasi Produk",
+// "desc": "Hilirisasi merupakan istilah yang digunakan untuk mewujudkan suatu ide penelitian menjadi produk yang siap pakai, mass produk.  Berapa banyak step yang diperlukan untuk menjadi produk jadi tergantung pada kompleksitas dari ide tersebut.  Dalam kerangka sistem yang besar, suatu desain bisa memerlukan bertahun-tahun untuk menjadi produk yang siap untuk ditawarkan.  Apakah sampai semua sistem jadi atau berdasarkan modul?  Hindari terlalu banyak ide sehingga tidak satupun modul menjadi siap produk.  Antara ide - prototipe - dan produk.\n\nHilirisasi sebagai upaya untuk mendekatkan hasil penelitian dan inovasi kepada user atau industri, mempunyai beberapa tahap proses yang tidak mudah. sederhanya sebagai berikut ini:\n- fase ide / problem solving sampai menemukan metode yang terbaik.\n- fase prototipe awal digunakan untuk menguji metode\n- fase prototipe sampai produk memerlukan banyak proses - REFACTORING\n- fase prototipe final lebih didekatkan dengan kelayakan dari market\n- fase test bed produk dengan lingkungan sebenarnya.\n\nUntuk bidang produk software setiap fase dapat didekati dengan istilah REFACTORING.  Proses perbaikan dan penyesuaian dengan lingkungan industri atau market, kelayakan aplikasi yang sesuai dengan kebutuhan industri.  Software akan semakin baik dan teruji pada lingkungan yang sebenarnya.\n\nStrategi refactoring sangat menentukan kecepatan dan kematangan suatu prototipe.  Strategi yang tepat akan mempercepat waktu dari ide sampai menjadi produk.  Refactoring yang efektif dapat dikondisikan sejak awal.  Vendor-vendor software besar mempunyai strategi yang baik sesuai dengan perencanaan dari sisi manajemen, mulai dari ide sehinigga software siap Launching.\n\nStrategi perencanaan ini meliputi :\n1. Fase Ide - problem domain.  Problem yang diangkat harus mempunyai VALUE ADDED dan sebaiknya merupakan kebutuhan terkini dari industri.  Bahkan memungkin untuk terlebih dahulu dilakukan studi kelayakan dari permasalahan tersebut.  Ide adalah solusi praktis yang dapat segera diimplementasikan pada problem tersebut.\n2. Fase researching.  Setelah teridentifikasi permasalahan, maka direncanakan hipotesa solusi dan dilakukan research untuk mendapatkan metode terbaik penyelesaian problem tersebut.\n3. Fase prototype awal.  Protoyping Awal adalah fungsi software sebagai implementasi fungsional dari metode yang diterapkan sebagai hasil inovasi penelitian.\n4. Fase refactoring ...\n5. Fase refactoring ...\n6. Fase prototyping Final\n6. Production\n\n### Refactoring\nRefactoring merupakan proses memperbaiki internal software dan menyesuaikan dengan kebutuhan dari user atau industri.  Proses ini dilakukan beberapa kali, minimal 3 x refactoring yaitu:\n- Refactoring pada prototype awal\n- Refactoring pada prototype final\n- Refactoring pada pra produksi\nTetapi perjalanan yang cukup memakan waktu adalah proses refactoring pada prototype awal sampai menjadi prototyping akhir.  Dan memungkinkan lebih dari 3 kali, bahkan mungkin tidak sampai menjadi prototype Akhir.\n",
+// "isPublic": true,
+// "tags": [
+// "agile",
+// "software",
+// "refactoring",
+// "clean code",
+// "hilirisasi"
+// ],
+// "createdAt": "2023-02-05T23:15:54.946Z",
+// "comments": [],
+// "updatedAt": "2023-02-14T06:47:40.990Z",
+// "__v": 0,
+// "coverArticle": "https://api-portfolio.gft.academy/storage/images/fileAlbum_1675639589385.png",
+// "mermaidDiagram": ""
+// }
