@@ -6,29 +6,38 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class GetPosts {
-  var id, userId, desc, isPublic, createdAt, updatedAt;
+class GetArticles {
+  var id, userId, title, desc, coverArticle, isPublic;
+  var tags = [];
+  var createdAt, updatedAt;
+
   var comments = [];
 
   // comments nanti dulu
-  GetPosts.instance({
+  GetArticles.instance({
     this.id,
     this.userId,
+    this.title,
     this.desc,
+    this.coverArticle,
     this.isPublic,
+    required this.tags,
     this.createdAt,
     this.updatedAt,
     required this.comments,
   });
 
-  GetPosts();
+  GetArticles();
 
-  factory GetPosts.fromJson(Map<String, dynamic> json) {
-    return GetPosts.instance(
+  factory GetArticles.fromJson(Map<String, dynamic> json) {
+    return GetArticles.instance(
       id: json['_id'],
       userId: json['userId'],
+      title: json['title'],
       desc: json['desc'],
+      coverArticle: json['coverArticle'],
       isPublic: json['isPublic'],
+      tags: json['tags'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       comments: (json['comments'] as List<dynamic>)
@@ -42,8 +51,11 @@ class GetPosts {
     return {
       '_id': id,
       'userId': userId,
+      'title' : title,
       'desc': desc,
+      'coverArticle' : coverArticle,
       'isPublic': isPublic,
+      'tags': tags,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'comments': comments.map((e) => e.toJson().toList()),
@@ -52,7 +64,7 @@ class GetPosts {
 
   @override
   String toString() {
-    return 'GetPosts{id: $id, userId: $userId, desc: $desc, isPublic: $isPublic, createdAt: $createdAt, updatedAt: $updatedAt, comments: $comments}';
+    return 'GetArticles{id: $id, userId: $userId, title: $title, desc: $desc, coverArticle: $coverArticle, isPublic: $isPublic, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt, comments: $comments}';
   }
 }
 
@@ -92,10 +104,11 @@ class Comment {
   }
 
 }
-class GetPostsController extends GetxController {
+
+class GetArticlesController extends GetxController {
   final userController = Get.find<GetUserController>();
   late GetUser? currentUser = userController.getUser.value;
-  List getPostsList = <GetPosts>[].obs;
+  List getArticlesList = <GetArticles>[].obs;
   var postLoading = true.obs;
 
   @override
@@ -107,11 +120,11 @@ class GetPostsController extends GetxController {
   readData() async {
     try {
       postLoading.value = true;
-      List<GetPosts>? _getPostsList = await getPostsService();
-      if (_getPostsList != null) {
-        getPostsList.assignAll(_getPostsList);
+      List<GetArticles>? _getArticlesList = await getArticlesService();
+      if (_getArticlesList != null) {
+        getArticlesList.assignAll(_getArticlesList);
       } else {
-        throw Exception('Failed to load Posts Controller');
+        throw Exception('Failed to load Articles Controller');
       }
     } finally {
       postLoading.value = false;
@@ -119,22 +132,22 @@ class GetPostsController extends GetxController {
     update();
   }
 
-  Future<List<GetPosts>?> getPostsService() async {
+  Future<List<GetArticles>?> getArticlesService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     final userId = prefs.getString('userId');
     // const userId = '6397fe5fbfe53e713a1c10d8';
     final response = await get(
-      Uri.parse('${Endpoint.getPosts}/$userId'),
+      Uri.parse('${Endpoint.getArticles}/$userId'),
       headers: Endpoint.$httpHeader,
     );
 
     if (response.statusCode == 200) {
       List postsResponse = jsonDecode(response.body);
-      return postsResponse.map((e) => GetPosts.fromJson(e)).toList();
+      return postsResponse.map((e) => GetArticles.fromJson(e)).toList();
       // return GetPosts.fromJson(postsResponse);
     } else {
-      throw Exception('Failed to load Posts');
+      throw Exception('Failed to load Articles');
     }
   }
 }

@@ -1,23 +1,27 @@
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/views/components/profile_bar.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/get-articles-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 class ProfilePage extends StatelessWidget {
-
   final List<Tab> myTabs = [
     Tab(text: 'About Me'),
     Tab(text: 'Posts'),
-    Tab(text: 'Articles'),   Tab(text: 'About Me'),
-    Tab(text: 'Posts'),
     Tab(text: 'Articles'),
+    Tab(text: 'Activities'),
+    Tab(text: 'Projects'),
+    Tab(text: 'Badges'),
+    Tab(text: 'Album'),
   ];
 
   @override
@@ -26,71 +30,77 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Profile'),
       ),
-      body:
-
-
-      DefaultTabController(
+      body: DefaultTabController(
         length: myTabs.length,
         child: ListView(
           children: [
-            // GetBuilder<GetUserController>(
-            //   builder: (controller) {
-            //     final GetUser currentUser = controller.getUser.value;
-            //
-            //     return Profile_Bar(
-            //       profilePicture: currentUser.profilePicture,
-            //       name: currentUser.username,
-            //       role: currentUser.role,
-            //       major: currentUser.major,
-            //       nim: currentUser.nim,
-            //       interest: currentUser.interest,
-            //       academicField: currentUser.academicField,
-            //       following: currentUser.followings,
-            //       followers: currentUser.followers,
-            //     );
-            //   },
-            // ),
-            SizedBox(height: 10,),
+            GetBuilder<GetUserController>(
+              builder: (controller) {
+                final GetUser currentUser = controller.getUser.value;
 
-                TabBar(
-                  isScrollable: true,
-                  labelColor: Colors.black,
-                  tabs: myTabs,
-                ),
-
+                return Profile_Bar(
+                  profilePicture: currentUser.profilePicture,
+                  name: currentUser.username,
+                  role: currentUser.role,
+                  major: currentUser.major,
+                  nim: currentUser.nim,
+                  interest: currentUser.interest,
+                  academicField: currentUser.academicField,
+                  following: currentUser.followings,
+                  followers: currentUser.followers,
+                );
+              },
+            ),
             SizedBox(
-              height: MediaQuery.of(context).size.height - kToolbarHeight - kBottomNavigationBarHeight - 70, // Atur tinggi sesuai kebutuhan
+              height: 10,
+            ),
+            TabBar(
+              isScrollable: true,
+              labelColor: Colors.black,
+              tabs: myTabs,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  kBottomNavigationBarHeight -
+                  80,
+              // Atur tinggi sesuai kebutuhan
               child: TabBarView(
                 children: [
                   // GetPostsPage(),
-
-                  Center(
-                    child: GetBuilder<GetPostsController> (
-                      builder: (controller){
-
-                        // return Text('');
-                        return PostsTab(getPostsAll: controller.getPostsList);
-                      },
-                    ),
-                  ),
                   Center(
                     child: GetBuilder<GetUserController>(
                       builder: (controller) {
                         return AboutMeTab(
-                          currentUser: controller.getUser.value,
-                        );
+                            currentUser: controller.getUser.value);
+                      },
+                    ),
+                  ),
+                  Center(
+                    child: GetBuilder<GetPostsController>(
+                      builder: (controller) {
+                        return PostsTab(getUser :controller.userController.getUser.value, getPostsAll: controller.getPostsList);
+                      },
+                    ),
+                  ),  Center(
+                    child: GetBuilder<GetArticlesController>(
+                      builder: (controller) {
+                        return ArticlesTab(getUser :controller.userController.getUser.value, getArticlesAll: controller.getArticlesList);
                       },
                     ),
                   ),
 
+
                   Center(
-                    child: Text('Hello Dek'),
-                  ), Center(
                     child: Text('Hello Dek'),
                   ),
                   Center(
                     child: Text('Hello Dek'),
-                  ),  Center(
+                  ),
+                  Center(
+                    child: Text('Hello Dek'),
+                  ),
+                  Center(
                     child: Text('Hello Dek'),
                   ),
                 ],
@@ -101,24 +111,6 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
-}
-
-class PostsTab extends StatelessWidget {
-  final List<dynamic> getPostsAll;
-  PostsTab({super.key,required this.getPostsAll});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-          itemCount: getPostsAll.length,
-          itemBuilder: (context, index){
-            var getPost = getPostsAll[index];
-            return Text(getPost.toString());
-          })
-    );
-  }
-
 }
 
 class AboutMeTab extends StatelessWidget {
@@ -159,7 +151,7 @@ class AboutMeTab extends StatelessWidget {
     print('Tapped!');
   };
 
-  Markdown __descCardAbout() {
+ Markdown __descCardAbout() {
     return Markdown(
       shrinkWrap: true,
       selectable: true,

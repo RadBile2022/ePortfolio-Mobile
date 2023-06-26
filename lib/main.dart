@@ -1,6 +1,7 @@
 import 'package:eportfolio_mobile/controllers/auth.dart';
 import 'package:eportfolio_mobile/routes/route_pages.dart';
 import 'package:eportfolio_mobile/views/login.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
@@ -12,6 +13,7 @@ void main() {
   Get.lazyPut(() => GetUserController());
   // Get.lazyPut(() => GetPostsController());
   Get.put(GetPostsController());
+  Get.put(GetArticlesController());
 
   runApp(MyApp());
 }
