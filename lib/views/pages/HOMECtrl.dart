@@ -27,40 +27,11 @@ class HomeController extends GetxController {
       List<GetPosts>? _getPostsList = await getPostsTimeLineService();
       List<GetArticles>? _getArticlesList = await getArticlesTimeLineService();
       if (_getArticlesList != null && _getPostsList != null) {
-        if (_getPostsList != null) {
-          all.assignAll(_getPostsList);
-          _getPostsList.map((e) {
-            // filter private post
-            if (e.isPublic == false && e.userId != currentUser?.id) {
-              // Do nothing for private post
-            } else {
-              print('hallo dek');
-              print(e);
-              all.add(e);
+        all.clear();
+        all.addAll(_getPostsList);
+        all.addAll(_getArticlesList);
+        all.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-            }
-          });
-        }
-
-        // if (_getArticlesList != null) {
-        //   all.assignAll(_getArticlesList);
-        //   _getArticlesList.map((e) {
-        //     // filter private article
-        //     if (e.isPublic == false && e.userId != currentUser?.id) {
-        //       // Do nothing for private article
-        //     } else {
-        //       all.add(e);
-        //       all =all;
-        //
-        //     }
-        //   });
-        //
-        //   // sorting all posts and articles
-        //   all.sort((a, b) {
-        //     return DateTime.parse(b['createdAt'])
-        //         .compareTo(DateTime.parse(a['createdAt']));
-        //   });
-        // }
       } else {
         throw Exception(
             'Failed to load Posts && Articles Time Line Controller');

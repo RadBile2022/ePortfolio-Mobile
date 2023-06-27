@@ -24,6 +24,8 @@ class ProfilePage extends StatelessWidget {
     Tab(text: 'Album'),
   ];
 
+  ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,24 +74,31 @@ class ProfilePage extends StatelessWidget {
                     child: GetBuilder<GetUserController>(
                       builder: (controller) {
                         return AboutMeTab(
-                            currentUser: controller.getUser.value);
+                          currentUser: controller.getUser.value,
+                        );
                       },
                     ),
                   ),
                   Center(
                     child: GetBuilder<GetPostsController>(
                       builder: (controller) {
-                        return PostsTab(getUser :controller.userController.getUser.value, getPostsAll: controller.getPostsList);
-                      },
-                    ),
-                  ),  Center(
-                    child: GetBuilder<GetArticlesController>(
-                      builder: (controller) {
-                        return ArticlesTab(getUser :controller.userController.getUser.value, getArticlesAll: controller.getArticlesList);
+                        return PostsTab(
+                          postUser: controller.userController.getUser.value,
+                          getPostsAll: controller.getPostsList,
+                        );
                       },
                     ),
                   ),
-
+                  Center(
+                    child: GetBuilder<GetArticlesController>(
+                      builder: (controller) {
+                        return ArticlesTab(
+                          articleUser: controller.userController.getUser.value,
+                          getArticlesAll: controller.getArticlesList,
+                        );
+                      },
+                    ),
+                  ),
 
                   Center(
                     child: Text('Hello Dek'),
@@ -151,7 +160,7 @@ class AboutMeTab extends StatelessWidget {
     print('Tapped!');
   };
 
- Markdown __descCardAbout() {
+  Markdown __descCardAbout() {
     return Markdown(
       shrinkWrap: true,
       selectable: true,
@@ -228,6 +237,8 @@ class AboutMeTab extends StatelessWidget {
     );
   }
 
+  final VoidCallback $addOnPressed = () {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,24 +248,11 @@ class AboutMeTab extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[700],
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Add block to profile"),
-                    Icon(Icons.add),
-                  ],
-                ),
+              ProfileElevatedButton(
+                text: 'Add Block to Profile',
+                $addOnPressed: $addOnPressed,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Card_Component_AboutMe(
                 _titleCardPersonal,
                 _$editCardPersonal,

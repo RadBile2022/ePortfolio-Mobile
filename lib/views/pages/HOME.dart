@@ -1,3 +1,6 @@
+import 'package:eportfolio_mobile/views/components/article_account_card.dart';
+import 'package:eportfolio_mobile/views/components/article_title_container.dart';
+import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/pages/GetArticles/get-articles-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
@@ -12,6 +15,7 @@ class Home extends StatelessWidget {
 
   var getUserCtrl = Get.find<GetUserController>();
   var getSe = Get.find<HomeController>();
+
   Home({super.key});
 
   var imageUrls = [
@@ -20,29 +24,54 @@ class Home extends StatelessWidget {
     'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone12-digitalmat-gallery-6-202111?wid=728&hei=666&fmt=png-alpha&.v=1635178710000'
   ];
 
+  final GestureTapCallback $onTapAccount = () {
+    print('halo');
+  };
+  final GestureTapCallback $onTapMore = () {
+    print('hai');
+  };
+  final VoidCallback $onButtonMore = () {
+    print('asdfkjdsaf');
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey,
-        appBar: AppBar(
-          title: Text('ePortfolio GFT ACADEMY'),
-          automaticallyImplyLeading: false,
-        ),
-        body:
-          GetBuilder<HomeController>(
-            builder: ($) {
-              return ListView.builder(
-                  itemCount: $.all.length,
-                  itemBuilder: (context, index) {
-                    var element = $.all[index];
-                    return Card(child: Text(element.toString()));
-                    print(element);
-                    print('halo dek');
-                    // return ArticlesTab(getUser: elemen, getArticlesAll: getArticlesAll);
-                  });
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text('ePortfolio GFT ACADEMY'),
+        automaticallyImplyLeading: false,
+      ),
+      body: GetBuilder<HomeController>(
+        builder: ($) {
+          return ListView.builder(
+            itemCount: $.all.length,
+            itemBuilder: (context, index) {
+              var element = $.all[index];
+              return CardWidget(
+                widget: Column(
+                  children: [
+                    // ArticleAccountCard(
+                    //   articleUser: articleUser,
+                    //   getArticles: element.desc,
+                    //   $onTapAccount: $onTapAccount,
+                    //   $onTapMore: $onTapMore,
+                    // ),
+                    // ArticleTitleContainer(
+                    //   getArticles: getArticles,
+                    // ),
+                    HomeMarkdown(
+                      desc: element.desc,
+                      $onButtonMore: $onButtonMore,
+                    ),
+                  ],
+                ),
+              );
             },
-          ),
-       );
+          );
+        },
+      ),
+    );
 
     // SingleChildScrollView(
     //     child: Column(

@@ -91,15 +91,14 @@ class Outlined_Btn_Component_Generic extends StatelessWidget {
   late final Color? __foregroundButtonColor;
 
   Outlined_Btn_Component_Generic(
-      this._titleButtonString,
-      this._$onButtonPressed,
-      this.__backgroundButtonColor,
-      );
+    this._titleButtonString,
+    this._$onButtonPressed,
+    this.__backgroundButtonColor,
+  );
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-
       onPressed: _$onButtonPressed,
       style: OutlinedButton.styleFrom(
         backgroundColor: __backgroundButtonColor,
@@ -117,6 +116,60 @@ class Outlined_Btn_Component_Generic extends StatelessWidget {
         style: const TextStyle(
           color: Colors.blueGrey,
           fontSize: 14.0,
+        ),
+      ),
+    );
+  }
+}
+
+class TextButtonWidget extends StatelessWidget {
+  final VoidCallback $onButtonMore;
+
+  const TextButtonWidget({super.key, required this.$onButtonMore});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: $onButtonMore,
+      child: const Text(
+        'Read More ...',
+        style: TextStyle(
+          color: Colors.blue,
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileElevatedButton extends StatelessWidget {
+  final String text;
+  final VoidCallback $addOnPressed;
+
+  const ProfileElevatedButton({
+    super.key,
+    required this.text,
+    required this.$addOnPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: $addOnPressed,
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.blue[700],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(text),
+            const Icon(Icons.add),
+          ],
         ),
       ),
     );

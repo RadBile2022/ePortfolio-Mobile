@@ -1,61 +1,58 @@
-class LihatDiViewsOrder{
-  static const order_page ='/views/order/order_page.dart';
+import 'package:flutter/material.dart';
+
+class Data {
+  final String name;
+  final DateTime date;
+
+  Data({required this.name, required this.date});
 }
 
-// import 'package:flutter/material.dart';
-//
-// class UjiCoba extends StatelessWidget {
-//   final List<String> items = [
-//     'Item 1',
-//     'Item 2',
-//     'Item 3',
-//     'Item 4',
-//     'Item 5',
-//     'Item 6',
-//     'Item 7',
-//     'Item 8',
-//     'Item 9',
-//     'Item 10',
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Elegant List'),
-//       ),
-//       body: ListView.builder(
-//         itemCount: items.length,
-//         itemBuilder: (context, index) {
-//           return Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//             child: Card(
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//               elevation: 2.0,
-//               child: ListTile(
-//                 contentPadding: EdgeInsets.symmetric(horizontal: 16),
-//                 title: Text(
-//                   items[index],
-//                   style: Theme.of(context).textTheme.headline6,
-//                 ),
-//                 subtitle: Text(
-//                   'Subtitle',
-//                   style: Theme.of(context).textTheme.subtitle2,
-//                 ),
-//                 leading: CircleAvatar(
-//                   backgroundImage: AssetImage('assets/image.jpg'),
-//                 ),
-//
-//                 onTap: () {
-//                   // Aksi yang ingin dilakukan saat item di-tap
-//                 },
-//               ),
-//             ),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  final List<Data> array1 = [
+    Data(name: 'Data 1', date: DateTime(2022, 1, 1)),
+    Data(name: 'Data 2', date: DateTime(2021, 12, 31)),
+    Data(name: 'Data 3', date: DateTime(2022, 2, 15)),
+  ];
+
+  final List<Data> array2 = [
+    Data(name: 'Data 4', date: DateTime(2023, 6, 1)),
+    Data(name: 'Data 5', date: DateTime(2023, 5, 15)),
+    Data(name: 'Data 6', date: DateTime(2023, 6, 20)),
+  ];
+
+  List<Data> mergedAndSortedArray() {
+    List<Data> mergedArray = [];
+    mergedArray.addAll(array1);
+    mergedArray.addAll(array2);
+
+    mergedArray.sort((a, b) => b.date.compareTo(a.date)); // Urutkan secara descending (semakin terbaru semakin di atas)
+
+    return mergedArray;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Data> mergedArray = mergedAndSortedArray();
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Menggabungkan dan Mengurutkan Array Objek'),
+        ),
+        body: ListView.builder(
+          itemCount: mergedArray.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(mergedArray[index].name),
+              subtitle: Text(mergedArray[index].date.toString()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

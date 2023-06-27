@@ -4,6 +4,8 @@ abstract class RouteNames {
   static const register ='/register';
   static const tabMain ='/tab-main';
 
+  static const addPost ='/add-post';
+
   static const home ='/home-page';
   static const discovery ='/discovery-page';
   static const profile = '/profile-page';
