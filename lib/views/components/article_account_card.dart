@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class ArticleAccountCard extends StatelessWidget {
   /// Kartunya Akun Article
   final GetUser articleUser;
+  final GetUser currentUser;
   final GetArticles getArticles;
   final GestureTapCallback $onTapAccount;
   final GestureTapCallback $onTapMore;
@@ -18,6 +19,7 @@ class ArticleAccountCard extends StatelessWidget {
     required this.getArticles,
     required this.$onTapAccount,
     required this.$onTapMore,
+    required this.currentUser,
   });
 
   @override
@@ -40,7 +42,9 @@ class ArticleAccountCard extends StatelessWidget {
                         boldText: articleUser.username,
                         regularText: ' has written this',
                       ),
-                      const SizedBox(height: 3,),
+                      const SizedBox(
+                        height: 3,
+                      ),
                       Row(
                         children: [
                           SubTitleWidget(
@@ -54,7 +58,7 @@ class ArticleAccountCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (getArticles.userId == articleUser.id)
+                if (getArticles.userId == currentUser.id)
                   InkWell(
                     onTap: $onTapMore,
                     child: const MoreHorizIcon24(),

@@ -36,9 +36,9 @@ class ProfilePage extends StatelessWidget {
         length: myTabs.length,
         child: ListView(
           children: [
-            GetBuilder<GetUserController>(
+            GetBuilder<CurrentUserController>(
               builder: (controller) {
-                final GetUser currentUser = controller.getUser.value;
+                final GetUser currentUser = controller.currentUser.value;
 
                 return Profile_Bar(
                   profilePicture: currentUser.profilePicture,
@@ -71,10 +71,10 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   // GetPostsPage(),
                   Center(
-                    child: GetBuilder<GetUserController>(
+                    child: GetBuilder<CurrentUserController>(
                       builder: (controller) {
                         return AboutMeTab(
-                          currentUser: controller.getUser.value,
+                          currentUser: controller.currentUser.value,
                         );
                       },
                     ),
@@ -83,7 +83,7 @@ class ProfilePage extends StatelessWidget {
                     child: GetBuilder<GetPostsController>(
                       builder: (controller) {
                         return PostsTab(
-                          postUser: controller.userController.getUser.value,
+                          postUser: controller.userController.currentUser.value,
                           getPostsAll: controller.getPostsList,
                         );
                       },
@@ -93,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                     child: GetBuilder<GetArticlesController>(
                       builder: (controller) {
                         return ArticlesTab(
-                          articleUser: controller.userController.getUser.value,
+                          articleUser: controller.userController.currentUser.value,
                           getArticlesAll: controller.getArticlesList,
                         );
                       },

@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetPosts {
-  var id, userId, desc, isPublic, createdAt, updatedAt;
+  var id, userId, title, desc, isPublic, createdAt, updatedAt;
   var comments = [];
 
   // comments nanti dulu
@@ -93,8 +93,8 @@ class Comment {
 
 }
 class GetPostsController extends GetxController {
-  final userController = Get.find<GetUserController>();
-  late GetUser? currentUser = userController.getUser.value;
+  final userController = Get.find<CurrentUserController>();
+  late GetUser? currentUser = userController.currentUser.value;
   List getPostsList = <GetPosts>[].obs;
   var postLoading = true.obs;
 
@@ -122,8 +122,8 @@ class GetPostsController extends GetxController {
   Future<List<GetPosts>?> getPostsService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
-    final userId = prefs.getString('userId');
-    // const userId = '6397fe5fbfe53e713a1c10d8';
+    // final userId = prefs.getString('userId');
+    const userId = '6397fe5fbfe53e713a1c10d8';
     final response = await get(
       Uri.parse('${Endpoint.getPosts}/$userId'),
       headers: Endpoint.$httpHeader,

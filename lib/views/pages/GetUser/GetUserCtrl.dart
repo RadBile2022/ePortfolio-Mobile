@@ -110,8 +110,8 @@ class SocMed {
   }
 }
 
-class GetUserController extends GetxController {
-  var getUser = GetUser().obs;
+class CurrentUserController extends GetxController {
+  var currentUser = GetUser().obs;
   var postLoading = true.obs;
 
   @override
@@ -123,9 +123,9 @@ class GetUserController extends GetxController {
   readData() async {
     try {
       postLoading.value = true;
-      GetUser? _getUser = await getUserService();
-      if (_getUser != null) {
-        getUser(_getUser);
+      GetUser? activeUser = await getUserService();
+      if (activeUser != null) {
+        currentUser(activeUser);
       } else {
         throw Exception('Failed to load User');
       }
@@ -152,6 +152,52 @@ class GetUserController extends GetxController {
     }
   }
 }
+
+// class GetUserController extends GetxController {
+//
+//   List getCurrentUsers = <GetUser>[].obs;
+//   var postLoading = true.obs;
+//
+//
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     readData();
+//   }
+//
+//   readData() async {
+//     try {
+//       postLoading.value = true;
+//       for (GetUser user in getCurrentUsers) {
+//
+//       }
+//
+//       GetUser? _getUser = await getUserService();
+//       if (_getUser != null) {
+//         getUser(_getUser);
+//       } else {
+//         throw Exception('Failed to load User');
+//       }
+//     } finally {
+//       postLoading.value = false;
+//     }
+//     update();
+//   }
+//
+//   Future<GetUser?> getUserService(String userId) async {
+//     final response = await get(
+//       Uri.parse('${Endpoint.getUser}/$userId'),
+//       headers: Endpoint.$httpHeader,
+//     );
+//
+//     if (response.statusCode == 200) {
+//       var aboutMe = jsonDecode(response.body);
+//       return GetUser.fromJson(aboutMe);
+//     } else {
+//       throw Exception('Failed to load User');
+//     }
+//   }
+// }
 
 // topTabCtrl = AnimationController(
 //   vsync: this,

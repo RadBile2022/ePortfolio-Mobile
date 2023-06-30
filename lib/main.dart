@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  Get.lazyPut(() => GetUserController());
+  Get.lazyPut(() => CurrentUserController());
   // Get.lazyPut(() => GetPostsController());
   Get.put(GetPostsController());
   Get.put(GetArticlesController());
@@ -23,9 +23,11 @@ void main() {
 void dummyTest() async {
   var a = Get.put(HomeController());
 
-  await a.readData();
+  await a.readContents();
   print(a.all);
 
+  await a.readUsers();
+  // print(a.contentUsers);
   // 2 debug, object dan array
   // a.getPostsService();
 //   for (GetPosts g in a.getPostsList){

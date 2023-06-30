@@ -63,7 +63,7 @@ class ArticlesTab extends StatelessWidget {
             return CardWidget(
               widget: Column(
                 children: [
-                  ArticleAccountCard(
+                  ArticleAccountCard(currentUser: ,
                     articleUser: articleUser,
                     getArticles: getArticles,
                    $onTapAccount: () {  }, $onTapMore: () {  },

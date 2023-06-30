@@ -1,6 +1,7 @@
 import 'package:eportfolio_mobile/views/components/article_account_card.dart';
 import 'package:eportfolio_mobile/views/components/article_title_container.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
+import 'package:eportfolio_mobile/views/components/post_account_card.dart';
 import 'package:eportfolio_mobile/views/pages/GetArticles/get-articles-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 class Home extends StatelessWidget {
   final tabController = Get.find<TabControllers>();
 
-  var getUserCtrl = Get.find<GetUserController>();
+  var getUserCtrl = Get.find<CurrentUserController>();
   var getSe = Get.find<HomeController>();
 
   Home({super.key});
@@ -48,25 +49,50 @@ class Home extends StatelessWidget {
             itemCount: $.all.length,
             itemBuilder: (context, index) {
               var element = $.all[index];
-              return CardWidget(
-                widget: Column(
-                  children: [
-                    // ArticleAccountCard(
-                    //   articleUser: articleUser,
-                    //   getArticles: element.desc,
-                    //   $onTapAccount: $onTapAccount,
-                    //   $onTapMore: $onTapMore,
-                    // ),
-                    // ArticleTitleContainer(
-                    //   getArticles: getArticles,
-                    // ),
-                    HomeMarkdown(
-                      desc: element.desc,
-                      $onButtonMore: $onButtonMore,
-                    ),
-                  ],
-                ),
-              );
+              var identy = $.contentUsers[index];
+              if (element.title != null && element.title!.isNotEmpty ) {
+                return CardWidget(
+                  widget: Column(
+                    children: [
+                      ArticleAccountCard(
+                        articleUser: identy,
+                        getArticles: element,
+                        $onTapAccount: $onTapAccount,
+                        $onTapMore: $onTapMore,currentUser: getUserCtrl.currentUser.value,
+                      ),
+                      ArticleTitleContainer(
+                        getArticles: element,
+                      ),
+                      HomeMarkdown(
+                        desc: element.desc,
+                        $onButtonMore: $onButtonMore,
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              else {
+                return CardWidget(
+                  widget: Column(
+                    children: [
+                      PostAccountCard(
+                        postUser: identy,
+                        getPosts: element,
+                        $onTapAccount: $onTapAccount,
+                        $onTapMore: $onTapMore,
+                      ),
+                      // ArticleTitleContainer(
+                      //   getArticles: getArticles,
+                      // ),
+                      HomeMarkdown(
+                        desc: element.desc,
+                        $onButtonMore: $onButtonMore,
+                      ),
+                    ],
+                  ),
+                );
+              }
             },
           );
         },

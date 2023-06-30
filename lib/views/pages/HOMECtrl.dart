@@ -10,18 +10,43 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   List<dynamic> all = [].obs;
+  List contentUsers = <GetUser>[].obs;
 
-  final userController = Get.find<GetUserController>();
-  late GetUser? currentUser = userController.getUser.value;
+  final userController = Get.find<CurrentUserController>();
+  late GetUser? currentUser = userController.currentUser.value;
   var postLoading = true.obs;
 
   @override
   void onInit() {
     super.onInit();
-    readData();
+    readContents();
+    readUsers();
+  }
+    readUsers() async {
+    for (var item in all) {
+      var userId = item.userId;
+     contentUsers.add(await getUserService(userId)) ;
+      print(userId);
+    }
+    print(contentUsers);
+
+  }
+  Future<GetUser?> getUserService(String userId) async {
+    final response = await get(
+      Uri.parse('${Endpoint.getUser}/$userId'),
+      headers: Endpoint.$httpHeader,
+    );
+
+    if (response.statusCode == 200) {
+      var aboutMe = jsonDecode(response.body);
+      return GetUser.fromJson(aboutMe);
+    } else {
+      throw Exception('Failed to load User');
+    }
   }
 
-  readData() async {
+
+   readContents() async {
     try {
       postLoading.value = true;
       List<GetPosts>? _getPostsList = await getPostsTimeLineService();
@@ -79,4 +104,6 @@ class HomeController extends GetxController {
       throw Exception('Failed to load Articles Time Line');
     }
   }
+
+
 }
