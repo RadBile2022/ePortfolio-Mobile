@@ -50,7 +50,7 @@ class Home extends StatelessWidget {
             itemBuilder: (context, index) {
               var element = $.all[index];
               var identy = $.contentUsers[index];
-              if (element.title != null && element.title!.isNotEmpty ) {
+              if (element.title != null && element.title!.isNotEmpty) {
                 return CardWidget(
                   widget: Column(
                     children: [
@@ -58,7 +58,8 @@ class Home extends StatelessWidget {
                         articleUser: identy,
                         getArticles: element,
                         $onTapAccount: $onTapAccount,
-                        $onTapMore: $onTapMore,currentUser: getUserCtrl.currentUser.value,
+                        $onTapMore: $onTapMore,
+                        currentUser: getUserCtrl.currentUser.value,
                       ),
                       ArticleTitleContainer(
                         getArticles: element,
@@ -70,13 +71,12 @@ class Home extends StatelessWidget {
                     ],
                   ),
                 );
-              }
-
-              else {
+              } else {
                 return CardWidget(
                   widget: Column(
                     children: [
                       PostAccountCard(
+                        currentUser: getUserCtrl.currentUser.value,
                         postUser: identy,
                         getPosts: element,
                         $onTapAccount: $onTapAccount,

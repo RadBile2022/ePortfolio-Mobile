@@ -8,6 +8,7 @@ class Endpoint {
 
   static const getUser = '$_apiUrl/api/users';
   static const getPosts = '$_apiUrl/api/posts/all';
+  static const createPost ='$_apiUrl/api/posts/';
   static const getArticles = '$_apiUrl/api/articles/all';
 
   static const getPostsTimeLine = '$_apiUrl/api/posts/timeline/all';

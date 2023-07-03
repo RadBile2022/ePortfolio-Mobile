@@ -7,13 +7,15 @@ import 'package:flutter/material.dart';
 
 class PostAccountCard extends StatelessWidget {
   /// Kartunya Akun Post
+  final GetUser currentUser;
   final GetUser postUser;
-  final GetPosts getPosts;
+  final PostModel getPosts;
   final GestureTapCallback $onTapAccount;
   final GestureTapCallback $onTapMore;
 
   const PostAccountCard({
     super.key,
+    required this.currentUser,
     required this.postUser,
     required this.getPosts,
     required this.$onTapAccount,
@@ -73,7 +75,7 @@ class PostAccountCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (getPosts.userId == postUser.id)
+                if (getPosts.userId == currentUser.id)
                   InkWell(
                     onTap: $onTapMore,
                     child: const MoreHorizIcon24(),

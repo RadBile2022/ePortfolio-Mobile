@@ -16,11 +16,13 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 
 class ArticlesTab extends StatelessWidget {
+  final GetUser currentUser;
   final GetUser articleUser;
   final List<dynamic> getArticlesAll;
 
   ArticlesTab({
     super.key,
+    required this.currentUser,
     required this.articleUser,
     required this.getArticlesAll,
   });
@@ -63,7 +65,8 @@ class ArticlesTab extends StatelessWidget {
             return CardWidget(
               widget: Column(
                 children: [
-                  ArticleAccountCard(currentUser: ,
+                  ArticleAccountCard(currentUser:
+                    currentUser,
                     articleUser: articleUser,
                     getArticles: getArticles,
                    $onTapAccount: () {  }, $onTapMore: () {  },

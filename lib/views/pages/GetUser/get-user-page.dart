@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 class ProfilePage extends StatelessWidget {
+  final currentUserControl = Get.find<CurrentUserController>();
   final List<Tab> myTabs = [
     Tab(text: 'About Me'),
     Tab(text: 'Posts'),
@@ -93,6 +94,7 @@ class ProfilePage extends StatelessWidget {
                     child: GetBuilder<GetArticlesController>(
                       builder: (controller) {
                         return ArticlesTab(
+                          currentUser: currentUserControl.currentUser.value,
                           articleUser: controller.userController.currentUser.value,
                           getArticlesAll: controller.getArticlesList,
                         );

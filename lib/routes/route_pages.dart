@@ -13,7 +13,7 @@ class PageRouteApp {
 
     GetPage(name: RouteNames.tabMain, page: ()=> TabsMain()),
     GetPage(name: RouteNames.home, page: ()=>  Home()),
-    GetPage(name: RouteNames.addPost, page: ()=>  const AddPostPage()),
+    GetPage(name: RouteNames.addPost, page: ()=>   AddPostPage()),
 
 
 

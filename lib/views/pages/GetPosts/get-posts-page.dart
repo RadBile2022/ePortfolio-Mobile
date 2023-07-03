@@ -25,51 +25,54 @@ class PostsTab extends StatelessWidget {
   final VoidCallback $onButtonMore = () {
     print('asdfkjdsaf');
   };
-   Future? $addOnPressed () {
-     return    Get.toNamed(RouteNames.addPost);
+
+  Future? $addOnPressed() {
+    return Get.toNamed(RouteNames.addPost);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        body: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.all(16),
-              child: ProfileElevatedButton(
-                text: 'Add Post ',
-                $addOnPressed: $addOnPressed,
-              ),
+      backgroundColor: Colors.grey[200],
+      body: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: getPostsAll.length,
-                itemBuilder: (context, index) {
-                  var getPosts = getPostsAll[index];
-                  return CardWidget(
-                    widget: Column(
-                      children: [
-                        PostAccountCard(
-                          postUser: postUser,
-                          getPosts: getPosts,
-                          $onTapAccount: $onTapAccount,
-                          $onTapMore: $onTapMore,
-                        ),
-                        HomeMarkdown(
-                          desc: getPosts.desc,
-                          $onButtonMore: $onButtonMore,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+            padding: const EdgeInsets.all(16),
+            child: ProfileElevatedButton(
+              text: 'Add Post ',
+              $addOnPressed: $addOnPressed,
             ),
-          ],
-        ));
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: getPostsAll.length,
+              itemBuilder: (context, index) {
+                var getPosts = getPostsAll[index];
+                return CardWidget(
+                  widget: Column(
+                    children: [
+                      PostAccountCard(
+                        currentUser: postUser,
+                        postUser: postUser,
+                        getPosts: getPosts,
+                        $onTapAccount: $onTapAccount,
+                        $onTapMore: $onTapMore,
+                      ),
+                      HomeMarkdown(
+                        desc: getPosts.desc,
+                        $onButtonMore: $onButtonMore,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
