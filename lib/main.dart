@@ -1,5 +1,6 @@
 import 'package:eportfolio_mobile/controllers/auth.dart';
 import 'package:eportfolio_mobile/routes/route_pages.dart';
+import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/login.dart';
 import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
@@ -16,6 +17,8 @@ void main() {
   Get.put(GetPostsController());
   Get.put(GetArticlesController());
   Get.put(HomeController());
+  Get.put(BottomSheetController());
+
   dummyTest();
   runApp(MyApp());
 }

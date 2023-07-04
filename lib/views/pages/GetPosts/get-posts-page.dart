@@ -1,4 +1,5 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
+import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
@@ -11,24 +12,39 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 
 class PostsTab extends StatelessWidget {
+  final bottomSheetController = Get.find<BottomSheetController>();
   final GetUser postUser;
-  final List<dynamic> getPostsAll;
+  final List<dynamic> postAll;
 
-  PostsTab({super.key, required this.postUser, required this.getPostsAll});
+  PostsTab({super.key, required this.postUser, required this.postAll});
 
   final GestureTapCallback $onTapAccount = () {
     print('halo');
   };
-  final GestureTapCallback $onTapMore = () {
-    print('hai');
-  };
+
+  PopupMenuItemSelected? $onSelected(String result) {
+    print(result);
+    return null;
+  }
+
   final VoidCallback $onButtonMore = () {
     print('asdfkjdsaf');
   };
 
+
   Future? $addOnPressed() {
     return Get.toNamed(RouteNames.addPost);
   }
+  final Function(String) $onTapMoreHoriz;
+
+  Future? $onTapMoreHoriz(String id) {
+    bottomSheetController.toggleBottomSheet();
+    bottomSheetController.id.value = id;
+  }
+
+  // Future? $onTapMoreHoriz() {
+  //   return Get.toNamed(RouteNames.addPost);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +64,21 @@ class PostsTab extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: getPostsAll.length,
+              itemCount: postAll.length,
               itemBuilder: (context, index) {
-                var getPosts = getPostsAll[index];
+                var post = postAll[index];
                 return CardWidget(
                   widget: Column(
                     children: [
                       PostAccountCard(
                         currentUser: postUser,
                         postUser: postUser,
-                        getPosts: getPosts,
+                        getPosts: post,
                         $onTapAccount: $onTapAccount,
-                        $onTapMore: $onTapMore,
+                        $onTapMoreHoriz: $onTapMoreHoriz(post.id),
                       ),
                       HomeMarkdown(
-                        desc: getPosts.desc,
+                        desc: post.desc,
                         $onButtonMore: $onButtonMore,
                       ),
                     ],
@@ -73,6 +89,7 @@ class PostsTab extends StatelessWidget {
           ),
         ],
       ),
+
     );
   }
 }

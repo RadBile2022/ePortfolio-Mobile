@@ -85,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                       builder: (controller) {
                         return PostsTab(
                           postUser: controller.userController.currentUser.value,
-                          getPostsAll: controller.getPostsList,
+                          postAll: controller.postList,
                         );
                       },
                     ),

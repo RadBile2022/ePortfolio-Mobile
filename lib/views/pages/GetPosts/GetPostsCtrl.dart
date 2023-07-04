@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PostModel {
+class Post {
   var id, userId, title, desc, isPublic, createdAt, updatedAt;
   var comments = [];
 
   // comments nanti dulu
-  PostModel.instance({
+  Post.instance({
     this.id,
     this.userId,
     this.desc,
@@ -21,10 +21,10 @@ class PostModel {
     required this.comments,
   });
 
-  PostModel();
+  Post();
 
-  factory PostModel.fromJson(Map<String, dynamic> json) {
-    return PostModel.instance(
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post.instance(
       id: json['_id'],
       userId: json['userId'],
       desc: json['desc'],
@@ -91,7 +91,7 @@ class Comment {
 class GetPostsController extends GetxController {
   final userController = Get.find<CurrentUserController>();
   late GetUser? currentUser = userController.currentUser.value;
-  List getPostsList = <PostModel>[].obs;
+  List postList = <Post>[].obs;
   var postLoading = true.obs;
 
   @override
@@ -103,9 +103,9 @@ class GetPostsController extends GetxController {
   readData() async {
     try {
       postLoading.value = true;
-      List<PostModel>? _getPostsList = await getPostsService();
+      List<Post>? _getPostsList = await getPostsService();
       if (_getPostsList != null) {
-        getPostsList.assignAll(_getPostsList);
+        postList.assignAll(_getPostsList);
       } else {
         throw Exception('Failed to load Posts Controller');
       }
@@ -115,7 +115,7 @@ class GetPostsController extends GetxController {
     update();
   }
 
-  Future<List<PostModel>?> getPostsService() async {
+  Future<List<Post>?> getPostsService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     final userId = prefs.getString('userId');
@@ -127,19 +127,19 @@ class GetPostsController extends GetxController {
 
     if (response.statusCode == 200) {
       List postsResponse = jsonDecode(response.body);
-      return postsResponse.map((e) => PostModel.fromJson(e)).toList();
+      return postsResponse.map((e) => Post.fromJson(e)).toList();
       // return GetPosts.fromJson(postsResponse);
     } else {
       throw Exception('Failed to load Posts');
     }
   }
 
-  void addPosts(PostModel t) async {
-    getPostsList.add(t);
-    await createPostService(t);
+  void addPosts(Post t) async {
+    postList.add(t);
+    await createService(t);
   }
 
-  Future<void> createPostService(PostModel t) async {
+  Future<void> createService(Post t) async {
     final response = await post(
       Uri.parse(Endpoint.createPost),
       headers: Endpoint.$httpHeader,
@@ -150,6 +150,50 @@ class GetPostsController extends GetxController {
       throw Exception('Failed Create Post');
     }
   }
+
+
+  Post? findPostById (String? id){
+    for (Post p in postList) {
+      if (p.id == id) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+  void updatePost(Post t) async {
+    await updateService(t);
+  }
+  Future<void> updateService(Post t) async {
+    final response = await put(
+      Uri.parse('${Endpoint.updatePost}/${t.id}'),
+      headers: Endpoint.$httpHeader,
+      body: jsonEncode(t.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      print('Customer updated successfully!');
+    } else {
+      print('Failed to update customer. Error: ${response.statusCode}');
+    }
+  }
+  // void deleteCustomer (Customer t) async {
+  //   customerList.remove(t);
+  //   service.remove(t.id!);
+  // }
+  //
+  // Future<void> remove(String id) async {
+  //   final url = Uri.parse('${Endpoint.apiCustomer}/$id');
+  //   final response = await delete(url);
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Customer deleted successfully!');
+  //   } else {
+  //     print('Failed to delete customer. Error: ${response.statusCode}');
+  //   }
+  // }
+
+
 }
 //
 // "_id": "63fed9cbf6f6281b499d23fc",

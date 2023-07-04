@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MoreHorizIcon24 extends StatelessWidget {
-  const MoreHorizIcon24({super.key});
+final Function (String) $onTapMoreHoriz;
 
+
+  const MoreHorizIcon24({super.key, required this.$onTapMoreHoriz});
   @override
   Widget build(BuildContext context) {
-    return const Icon(
-      Icons.more_horiz,
-    );
+    return InkWell(
+      child: const Icon(
+        Icons.more_horiz,
+      ),
+      onTap:$onTapMoreHoriz ,
+    ) ;
   }
 }

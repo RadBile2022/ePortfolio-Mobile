@@ -1,4 +1,5 @@
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
+import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
@@ -9,9 +10,9 @@ class PostAccountCard extends StatelessWidget {
   /// Kartunya Akun Post
   final GetUser currentUser;
   final GetUser postUser;
-  final PostModel getPosts;
+  final Post getPosts;
   final GestureTapCallback $onTapAccount;
-  final GestureTapCallback $onTapMore;
+  final VoidCallback $onTapMoreHoriz;
 
   const PostAccountCard({
     super.key,
@@ -19,7 +20,7 @@ class PostAccountCard extends StatelessWidget {
     required this.postUser,
     required this.getPosts,
     required this.$onTapAccount,
-    required this.$onTapMore,
+    required this.$onTapMoreHoriz,
   });
 
   @override
@@ -76,10 +77,7 @@ class PostAccountCard extends StatelessWidget {
                   ),
                 ),
                 if (getPosts.userId == currentUser.id)
-                  InkWell(
-                    onTap: $onTapMore,
-                    child: const MoreHorizIcon24(),
-                  ),
+                  MoreHorizIcon24($onTapMoreHoriz: $onTapMoreHoriz)
               ],
             ),
           ),

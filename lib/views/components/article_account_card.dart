@@ -1,4 +1,5 @@
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
+import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
 import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
@@ -11,15 +12,15 @@ class ArticleAccountCard extends StatelessWidget {
   final GetUser currentUser;
   final GetArticles getArticles;
   final GestureTapCallback $onTapAccount;
-  final GestureTapCallback $onTapMore;
+  final VoidCallback $onTapMoreHoriz;
 
   const ArticleAccountCard({
     super.key,
     required this.articleUser,
     required this.getArticles,
     required this.$onTapAccount,
-    required this.$onTapMore,
     required this.currentUser,
+    required this.$onTapMoreHoriz,
   });
 
   @override
@@ -59,10 +60,7 @@ class ArticleAccountCard extends StatelessWidget {
                   ),
                 ),
                 if (getArticles.userId == currentUser.id)
-                  InkWell(
-                    onTap: $onTapMore,
-                    child: const MoreHorizIcon24(),
-                  ),
+                  MoreHorizIcon24($onTapMoreHoriz: $onTapMoreHoriz)
               ],
             ),
           ),

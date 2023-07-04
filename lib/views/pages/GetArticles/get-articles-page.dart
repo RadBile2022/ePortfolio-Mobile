@@ -3,6 +3,7 @@ import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/components/article_account_card.dart';
 import 'package:eportfolio_mobile/views/components/article_title_container.dart';
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
+import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
@@ -16,6 +17,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 
 class ArticlesTab extends StatelessWidget {
+  final bottomSheetController = Get.find<BottomSheetController>();
+
   final GetUser currentUser;
   final GetUser articleUser;
   final List<dynamic> getArticlesAll;
@@ -30,9 +33,10 @@ class ArticlesTab extends StatelessWidget {
   final GestureTapCallback $onTapAccount = () {
     print('halo');
   };
-  final GestureTapCallback $onTapMore = () {
+  PopupMenuItemSelected? $onTapMore(String result)  {
     print('hai');
-  };
+    return null;
+  }
   final VoidCallback $onButtonMore = () {
     print('asdfkjdsaf');
   };
@@ -40,6 +44,11 @@ class ArticlesTab extends StatelessWidget {
   Future? $addOnPressed() {
     return Get.toNamed(RouteNames.addPost);
   }
+
+  Future?  $onTapMoreHoriz  () {
+    bottomSheetController.toggleBottomSheet();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +78,9 @@ class ArticlesTab extends StatelessWidget {
                     currentUser,
                     articleUser: articleUser,
                     getArticles: getArticles,
-                   $onTapAccount: () {  }, $onTapMore: () {  },
+                   $onTapAccount: () {  },
+                    $onTapMoreHoriz: $onTapMoreHoriz,
+
                   ),
                   ArticleTitleContainer(
                     getArticles: getArticles,

@@ -49,7 +49,7 @@ class HomeController extends GetxController {
    readContents() async {
     try {
       postLoading.value = true;
-      List<PostModel>? _getPostsList = await getPostsTimeLineService();
+      List<Post>? _getPostsList = await getPostsTimeLineService();
       List<GetArticles>? _getArticlesList = await getArticlesTimeLineService();
       if (_getArticlesList != null && _getPostsList != null) {
         all.clear();
@@ -67,7 +67,7 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<List<PostModel>?> getPostsTimeLineService() async {
+  Future<List<Post>?> getPostsTimeLineService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     final userId = prefs.getString('userId');
@@ -79,7 +79,7 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200) {
       List postsResponse = jsonDecode(response.body);
-      return postsResponse.map((e) => PostModel.fromJson(e)).toList();
+      return postsResponse.map((e) => Post.fromJson(e)).toList();
       // return GetPosts.fromJson(postsResponse);
     } else {
       throw Exception('Failed to load Posts Time Line');

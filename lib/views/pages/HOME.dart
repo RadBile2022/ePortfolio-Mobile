@@ -1,5 +1,6 @@
 import 'package:eportfolio_mobile/views/components/article_account_card.dart';
 import 'package:eportfolio_mobile/views/components/article_title_container.dart';
+import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
 import 'package:eportfolio_mobile/views/pages/GetArticles/get-articles-page.dart';
@@ -12,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
+  final bottomSheetController = Get.find<BottomSheetController>();
+
   final tabController = Get.find<TabControllers>();
 
   var getUserCtrl = Get.find<CurrentUserController>();
@@ -28,13 +31,18 @@ class Home extends StatelessWidget {
   final GestureTapCallback $onTapAccount = () {
     print('halo');
   };
-  final GestureTapCallback $onTapMore = () {
+
+  PopupMenuItemSelected? $onTapMore(String result)  {
     print('hai');
-  };
+    return null;
+  }
+
   final VoidCallback $onButtonMore = () {
     print('asdfkjdsaf');
   };
-
+  Future?  $onTapMoreHoriz  () {
+    bottomSheetController.toggleBottomSheet();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +66,8 @@ class Home extends StatelessWidget {
                         articleUser: identy,
                         getArticles: element,
                         $onTapAccount: $onTapAccount,
-                        $onTapMore: $onTapMore,
+                        $onTapMoreHoriz: $onTapMoreHoriz,
+
                         currentUser: getUserCtrl.currentUser.value,
                       ),
                       ArticleTitleContainer(
@@ -80,7 +89,8 @@ class Home extends StatelessWidget {
                         postUser: identy,
                         getPosts: element,
                         $onTapAccount: $onTapAccount,
-                        $onTapMore: $onTapMore,
+                        $onTapMoreHoriz: $onTapMoreHoriz,
+
                       ),
                       // ArticleTitleContainer(
                       //   getArticles: getArticles,

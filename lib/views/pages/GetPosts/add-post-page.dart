@@ -18,7 +18,7 @@ class _AddPostPageState extends State<AddPostPage> {
       String postText = _postController.text;
       // print('Postingan Anda: $postText');
 
-      final newPost = PostModel();
+      final newPost = Post();
       newPost.desc = postText;
       newPost.userId='63dc6409165337cbbf8a1d8b';
       newPost.isPublic=false;
