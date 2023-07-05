@@ -29,6 +29,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Function(String) $onTapMoreHoriz = (String id) {};
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -101,7 +102,6 @@ class ProfilePage extends StatelessWidget {
                       },
                     ),
                   ),
-
                   Center(
                     child: Text('Hello Dek'),
                   ),

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
@@ -10,13 +13,20 @@ import 'package:eportfolio_mobile/views/pages/HOME.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 class PostsTab extends StatelessWidget {
   final bottomSheetController = Get.find<BottomSheetController>();
+  final postController = Get.find<GetPostsController>();
+
   final GetUser postUser;
   final List<dynamic> postAll;
 
-  PostsTab({super.key, required this.postUser, required this.postAll});
+  PostsTab({
+    super.key,
+    required this.postUser,
+    required this.postAll,
+  });
 
   final GestureTapCallback $onTapAccount = () {
     print('halo');
@@ -31,16 +41,30 @@ class PostsTab extends StatelessWidget {
     print('asdfkjdsaf');
   };
 
+  Future? $addOnPressed() async {
+    // final url = Uri.parse('https://api-portfolio.gft.academy/api/posts/64a4e50bce1f9436a4f6b112');
+    //
+    // final response = await delete(url);
+    //
+    // if (response.statusCode == 200) {
+    //   print('Customer deleted successfully!');
+    // } else {
+    //   print('Failed to delete customer. Error: ${response.statusCode}');
+    // }
 
-  Future? $addOnPressed() {
     return Get.toNamed(RouteNames.addPost);
   }
-  final Function(String) $onTapMoreHoriz;
 
-  Future? $onTapMoreHoriz(String id) {
+  Future? $onHoriz(String id) {
     bottomSheetController.toggleBottomSheet();
     bottomSheetController.id.value = id;
   }
+
+  Function(String) $onTapMoreHoriz = (String id) {
+    // bottomSheetController.toggleBottomSheet();
+    // bottomSheetController.id.value = id;
+    print(id);
+  };
 
   // Future? $onTapMoreHoriz() {
   //   return Get.toNamed(RouteNames.addPost);
@@ -75,7 +99,25 @@ class PostsTab extends StatelessWidget {
                         postUser: postUser,
                         getPosts: post,
                         $onTapAccount: $onTapAccount,
-                        $onTapMoreHoriz: $onTapMoreHoriz(post.id),
+                        $onTapMoreHoriz: () async{
+                          print(post.id);
+                          bottomSheetController.toggleBottomSheet();
+                          bottomSheetController.id.value = post.id;
+
+                          // final response = await delete(
+                          //   Uri.parse('${Endpoint.updatePost}/${post.id}'),
+                          //   headers: Endpoint.$httpHeader,
+                          //   body: jsonEncode(post.toJson()),
+                          // );
+                          //
+                          //
+                          // if (response.statusCode == 200) {
+                          //   print('Customer deleted successfully!');
+                          // } else {
+                          //   print('Failed to delete customer. Error: ${response.statusCode}');
+                          // }
+
+                        },
                       ),
                       HomeMarkdown(
                         desc: post.desc,
@@ -89,7 +131,6 @@ class PostsTab extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }

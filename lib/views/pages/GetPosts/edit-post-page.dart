@@ -3,7 +3,10 @@ import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AddPostPage extends StatelessWidget {
+class EditPostPage extends StatelessWidget {
+  final postController = Get.find<GetPostsController>();
+  final idPost = Get.arguments;
+  late Post? post = postController.findPostById(idPost);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _postController = TextEditingController();
 
@@ -12,19 +15,21 @@ class AddPostPage extends StatelessWidget {
     if (_formKey.currentState!.validate()) {
       String postText = _postController.text;
 
-      final newPost = Post();
-      newPost.desc = postText;
-      newPost.userId = '63dc6409165337cbbf8a1d8b';
-      newPost.isPublic = false;
-      newPost.comments = [];
+      post!.desc = postText;
+      post!.userId = '63dc6409165337cbbf8a1d8b';
+      post!.isPublic = false;
+      post!.comments = [];
 
-      Get.find<GetPostsController>().addPosts(newPost);
+      // Get.find<GetPostsController>().addPosts(newPost);
+      postController.updatePost(post!);
       Get.offAllNamed(RouteNames.tabMain);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    _postController.text = post!.desc;
+    print(post!.desc);
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Posts'),

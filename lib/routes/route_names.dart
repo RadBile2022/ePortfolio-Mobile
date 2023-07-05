@@ -5,6 +5,7 @@ abstract class RouteNames {
   static const tabMain ='/tab-main';
 
   static const addPost ='/add-post';
+  static const editPost ='/edit-post';
 
   static const home ='/home-page';
   static const discovery ='/discovery-page';

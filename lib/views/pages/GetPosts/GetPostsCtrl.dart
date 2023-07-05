@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -89,6 +90,7 @@ class Comment {
 }
 
 class GetPostsController extends GetxController {
+  final homeController = Get.find<HomeController>();
   final userController = Get.find<CurrentUserController>();
   late GetUser? currentUser = userController.currentUser.value;
   List postList = <Post>[].obs;
@@ -100,12 +102,12 @@ class GetPostsController extends GetxController {
     readData();
   }
 
-  readData() async {
+  void readData() async {
     try {
       postLoading.value = true;
-      List<Post>? _getPostsList = await getPostsService();
-      if (_getPostsList != null) {
-        postList.assignAll(_getPostsList);
+      List<Post>? getPosts = await getPostsService();
+      if (getPosts != null) {
+        postList.assignAll(getPosts);
       } else {
         throw Exception('Failed to load Posts Controller');
       }
@@ -135,8 +137,10 @@ class GetPostsController extends GetxController {
   }
 
   void addPosts(Post t) async {
-    postList.add(t);
     await createService(t);
+    postList.add(t);
+    readData();
+    // homeController.readContents();
   }
 
   Future<void> createService(Post t) async {
@@ -146,13 +150,12 @@ class GetPostsController extends GetxController {
       body: jsonEncode(t.toJson()),
     );
 
-    if (response.statusCode != 200){
+    if (response.statusCode != 200) {
       throw Exception('Failed Create Post');
     }
   }
 
-
-  Post? findPostById (String? id){
+  Post? findPostById(String? id) {
     for (Post p in postList) {
       if (p.id == id) {
         return p;
@@ -162,8 +165,11 @@ class GetPostsController extends GetxController {
   }
 
   void updatePost(Post t) async {
+    update();
     await updateService(t);
+    // homeController.readContents();
   }
+
   Future<void> updateService(Post t) async {
     final response = await put(
       Uri.parse('${Endpoint.updatePost}/${t.id}'),
@@ -171,29 +177,35 @@ class GetPostsController extends GetxController {
       body: jsonEncode(t.toJson()),
     );
 
-    if (response.statusCode == 200) {
-      print('Customer updated successfully!');
-    } else {
-      print('Failed to update customer. Error: ${response.statusCode}');
+    if (response.statusCode != 200) {
+      throw Exception('Failed Delete Post . Error: ${response.statusCode}');
+    }
+
+    // if (response.statusCode == 200) {
+    //   print('Customer updated successfully!');
+    // } else {
+    //   print('Failed to update customer. Error: ${response.statusCode}');
+    // }
+  }
+
+  void deletePost(String id) async {
+    Post? post = findPostById(id);
+    await removeService(post!);
+    postList.remove(post);
+    update();
+  }
+
+  Future<void> removeService(Post t) async {
+    final response = await delete(
+      Uri.parse('${Endpoint.updatePost}/${t.id}'),
+      headers: Endpoint.$httpHeader,
+      body: json.encode(t),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed Delete Post . Error: ${response.statusCode}');
     }
   }
-  // void deleteCustomer (Customer t) async {
-  //   customerList.remove(t);
-  //   service.remove(t.id!);
-  // }
-  //
-  // Future<void> remove(String id) async {
-  //   final url = Uri.parse('${Endpoint.apiCustomer}/$id');
-  //   final response = await delete(url);
-  //
-  //   if (response.statusCode == 200) {
-  //     print('Customer deleted successfully!');
-  //   } else {
-  //     print('Failed to delete customer. Error: ${response.statusCode}');
-  //   }
-  // }
-
-
 }
 //
 // "_id": "63fed9cbf6f6281b499d23fc",

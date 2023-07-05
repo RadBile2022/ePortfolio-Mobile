@@ -13,10 +13,11 @@ import 'package:get/get.dart';
 
 void main() {
   Get.lazyPut(() => CurrentUserController());
+  Get.put(HomeController());
+
   // Get.lazyPut(() => GetPostsController());
   Get.put(GetPostsController());
   Get.put(GetArticlesController());
-  Get.put(HomeController());
   Get.put(BottomSheetController());
 
   dummyTest();

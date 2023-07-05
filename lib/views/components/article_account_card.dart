@@ -14,6 +14,7 @@ class ArticleAccountCard extends StatelessWidget {
   final GestureTapCallback $onTapAccount;
   final VoidCallback $onTapMoreHoriz;
 
+
   const ArticleAccountCard({
     super.key,
     required this.articleUser,
