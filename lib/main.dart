@@ -6,6 +6,7 @@ import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
 import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:eportfolio_mobile/views/splash-screen.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,11 @@ import 'package:get/get.dart';
 void main() {
   Get.lazyPut(() => CurrentUserController());
   Get.put(HomeController());
-
-  // Get.lazyPut(() => GetPostsController());
   Get.put(GetPostsController());
+  // Get.lazyPut(() => GetPostsController());
   Get.put(GetArticlesController());
   Get.put(BottomSheetController());
+  Get.put(ProfilePageController());
 
   dummyTest();
   runApp(MyApp());

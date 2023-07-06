@@ -109,15 +109,32 @@ class Card_Component_White extends StatelessWidget {
   }
 }
 
-class CardWidget extends StatelessWidget {
+class CardWidgetBot extends StatelessWidget {
   final Widget widget;
 
-  const CardWidget({super.key, required this.widget});
+  const CardWidgetBot({super.key, required this.widget});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0), // Menghilangkan rounded corners
+      ),
+      child: widget,
+    );
+  }
+}
+
+class CardWidgetX extends StatelessWidget {
+  final Widget widget;
+
+  const CardWidgetX({super.key, required this.widget});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10, top: 10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0), // Menghilangkan rounded corners
       ),

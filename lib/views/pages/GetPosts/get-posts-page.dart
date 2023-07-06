@@ -5,6 +5,7 @@ import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
+import 'package:eportfolio_mobile/views/components/profile-containers.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
@@ -74,60 +75,52 @@ class PostsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Column(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.all(16),
-            child: ProfileElevatedButton(
-              text: 'Add Post ',
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: ContainerButtonProfile(
+              text: 'Add Post',
               $addOnPressed: $addOnPressed,
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: postAll.length,
-              itemBuilder: (context, index) {
-                var post = postAll[index];
-                return CardWidget(
-                  widget: Column(
-                    children: [
-                      PostAccountCard(
-                        currentUser: postUser,
-                        postUser: postUser,
-                        getPosts: post,
-                        $onTapAccount: $onTapAccount,
-                        $onTapMoreHoriz: () async{
-                          print(post.id);
-                          bottomSheetController.toggleBottomSheet();
-                          bottomSheetController.id.value = post.id;
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              var post = postAll[index];
+              return CardWidgetBot(
+                widget: Column(
+                  children: [
+                    PostAccountCard(
+                      currentUser: postUser,
+                      postUser: postUser,
+                      getPosts: post,
+                      $onTapAccount: $onTapAccount,
+                      $onTapMoreHoriz: () async {
+                        print(post.id);
+                        bottomSheetController.toggleBottomSheet();
+                        bottomSheetController.id.value = post.id;
 
-                          // final response = await delete(
-                          //   Uri.parse('${Endpoint.updatePost}/${post.id}'),
-                          //   headers: Endpoint.$httpHeader,
-                          //   body: jsonEncode(post.toJson()),
-                          // );
-                          //
-                          //
-                          // if (response.statusCode == 200) {
-                          //   print('Customer deleted successfully!');
-                          // } else {
-                          //   print('Failed to delete customer. Error: ${response.statusCode}');
-                          // }
-
-                        },
-                      ),
-                      HomeMarkdown(
-                        desc: post.desc,
-                        $onButtonMore: $onButtonMore,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                        // final response = await delete(
+                        //   Uri.parse('${Endpoint.updatePost}/${post.id}'),
+                        //   headers: Endpoint.$httpHeader,
+                        //   body: jsonEncode(post.toJson()),
+                        // );
+                        //
+                        //
+                        // if (response.statusCode == 200) {
+                        //   print('Customer deleted successfully!');
+                        // } else {
+                        //   print('Failed to delete customer. Error: ${response.statusCode}');
+                        // }
+                      },
+                    ),
+                    HomeMarkdown(
+                      desc: post.desc,
+                      $onButtonMore: $onButtonMore,
+                    ),
+                  ],
+                ),
+              );
+            }, childCount: postAll.length),
           ),
         ],
       ),

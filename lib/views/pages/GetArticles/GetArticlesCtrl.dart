@@ -110,6 +110,8 @@ class Comment {
 
 class GetArticlesController extends GetxController {
   final userController = Get.find<CurrentUserController>();
+  final currentUserControl = Get.find<CurrentUserController>();
+
   late GetUser? currentUser = userController.currentUser.value;
   List getArticlesList = <GetArticles>[].obs;
   var postLoading = true.obs;

@@ -81,6 +81,7 @@ class Profile_Bar extends StatelessWidget {
                     interest != null ? interest : "null",
                     style: TextStyle(
                       fontSize: 14,
+                      color: Colors.black
                     ),
                   ),
                 ],

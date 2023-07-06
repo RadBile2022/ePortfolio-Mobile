@@ -59,7 +59,7 @@ class Home extends StatelessWidget {
               var element = $.all[index];
               var identy = $.contentUsers[index];
               if (element.title != null && element.title!.isNotEmpty) {
-                return CardWidget(
+                return CardWidgetBot(
                   widget: Column(
                     children: [
                       ArticleAccountCard(
@@ -81,7 +81,7 @@ class Home extends StatelessWidget {
                   ),
                 );
               } else {
-                return CardWidget(
+                return CardWidgetBot(
                   widget: Column(
                     children: [
                       PostAccountCard(
