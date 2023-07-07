@@ -1,13 +1,12 @@
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
 import 'package:flutter/material.dart';
 
 class ArticleTitleContainer extends StatelessWidget {
   /// Kartunya Akun Article
-  final GetArticles getArticles;
+  final Article getArticles;
 
   const ArticleTitleContainer({
     super.key,

@@ -18,8 +18,8 @@ class LoginController extends GetxController {
 
   Future<void> loginWithEmail() async {
     try {
-       // final body = {"email": emailController.text, "password": passwordController.text};
-       final body = {"email": "wahradar511@gmail.com", "password": "123simpan"};
+      // final body = {"email": emailController.text, "password": passwordController.text};
+      final body = {"email": "wahradar511@gmail.com", "password": "123simpan"};
 
       final response = await post(
         Uri.parse(Endpoint.$$login),
@@ -58,14 +58,15 @@ class LoginController extends GetxController {
     } catch (e) {
       Get.back();
       showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return SimpleDialog(
-              title: Text('Error'),
-              contentPadding: EdgeInsets.all(20),
-              children: [Text(e.toString())],
-            );
-          });
+        context: Get.context!,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text('Error'),
+            contentPadding: EdgeInsets.all(20),
+            children: [Text(e.toString())],
+          );
+        },
+      );
     }
   }
 }

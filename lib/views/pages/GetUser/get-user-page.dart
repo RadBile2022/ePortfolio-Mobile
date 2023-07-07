@@ -1,13 +1,12 @@
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/views/components/profile_bar.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticleController.dart';
 import 'package:eportfolio_mobile/views/pages/GetArticles/get-articles-page.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
@@ -38,7 +37,7 @@ class ProfilePageController extends GetxController
       ),
     ),
     Center(
-      child: GetBuilder<GetPostsController>(
+      child: GetBuilder<PostController>(
         builder: (controller) {
           return PostsTab(
             postUser: controller.userController.currentUser.value,
@@ -48,13 +47,13 @@ class ProfilePageController extends GetxController
       ),
     ),
     Center(
-      child: GetBuilder<GetArticlesController>(
+      child: GetBuilder<ArticleController>(
         builder: (controller) {
           return ArticlesTab(
             // currentUser: currentUserControl.currentUser.value,
             // currentUser: controller.userController.currentUser.value,
             articleUser: controller.userController.currentUser.value,
-            articleAll: controller.getArticlesList,
+            articleAll: controller.articleList,
           );
         },
       ),
@@ -136,7 +135,6 @@ class ProfilePage extends StatelessWidget {
           labelColor: Colors.black,
           isScrollable: true,
       ),
-      Divider(height: 4,color: Colors.grey,)
     ],
     )
 

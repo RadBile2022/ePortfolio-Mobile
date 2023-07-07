@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/routes/route_names.dart';
-import 'package:eportfolio_mobile/views/components/drop_down.dart';
+import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/components/profile-containers.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
@@ -18,7 +17,7 @@ import 'package:http/http.dart';
 
 class PostsTab extends StatelessWidget {
   final bottomSheetController = Get.find<BottomSheetController>();
-  final postController = Get.find<GetPostsController>();
+  final postController = Get.find<PostController>();
 
   final GetUser postUser;
   final List<dynamic> postAll;
@@ -71,6 +70,21 @@ class PostsTab extends StatelessWidget {
   //   return Get.toNamed(RouteNames.addPost);
   // }
 
+  Future?  $onTapEditHoriz () {
+    String id =    bottomSheetController.id.value;
+    Get.toNamed(RouteNames.editPost, arguments: id);
+  }
+
+  void $onTapDeleteHoriz  (BuildContext context)  {
+    String id =    bottomSheetController.id.value;
+    // print(id);
+    postController.deletePost(id);
+
+    Navigator.pop(context);
+    // await postController.removePost(id);
+    // await postController.removePost(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +109,8 @@ class PostsTab extends StatelessWidget {
                       getPosts: post,
                       $onTapAccount: $onTapAccount,
                       $onTapMoreHoriz: () async {
+                        ModalBottomSheetHoriz.show(context, $onTapEditHoriz, ()=>$onTapDeleteHoriz(context),);
+
                         print(post.id);
                         bottomSheetController.toggleBottomSheet();
                         bottomSheetController.id.value = post.id;

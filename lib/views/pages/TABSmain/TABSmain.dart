@@ -1,7 +1,7 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/account.dart';
-import 'package:eportfolio_mobile/views/components/drop_down.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
@@ -13,21 +13,10 @@ import 'package:http/http.dart';
 
 class TabsMain extends StatelessWidget {
   final bottomSheetController = Get.find<BottomSheetController>();
-  final postController = Get.find<GetPostsController>();
+  final postController = Get.find<PostController>();
   final tabController = Get.put(TabControllers());
 
-  Future?  $onTapEditHoriz () {
-    String id =    bottomSheetController.id.value;
-    Get.toNamed(RouteNames.editPost, arguments: id);
-  }
-  
-   Future? $onTapDeleteHoriz  ()  {
-    String id =    bottomSheetController.id.value;
-    // print(id);
-     postController.deletePost(id);
-    // await postController.removePost(id);
-    // await postController.removePost(id);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,17 +56,7 @@ class TabsMain extends StatelessWidget {
           ],
         ),
       ),
-      bottomSheet: Obx(
-        () {
-          return Visibility(
-            visible: bottomSheetController.isBottomSheetOpen.value,
-            child: BottomSheetHoriz(
-              $onTapEditHoriz: $onTapEditHoriz,
-              $onTapDeleteHoriz: $onTapDeleteHoriz,
-            ),
-          );
-        },
-      ),
+
     );
   }
 }

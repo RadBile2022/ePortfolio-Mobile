@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -8,113 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-
-class GetArticles {
-  var id, userId, title, desc, coverArticle, isPublic;
-  var tags = [];
-  var createdAt, updatedAt;
-
-  var comments = [];
-
-  // comments nanti dulu
-  GetArticles.instance({
-    this.id,
-    this.userId,
-    this.title,
-    this.desc,
-    this.coverArticle,
-    this.isPublic,
-    required this.tags,
-    this.createdAt,
-    this.updatedAt,
-    required this.comments,
-  });
-
-  GetArticles();
-
-  factory GetArticles.fromJson(Map<String, dynamic> json) {
-    return GetArticles.instance(
-      id: json['_id'],
-      userId: json['userId'],
-      title: json['title'],
-      desc: json['desc'],
-      coverArticle: json['coverArticle'],
-      isPublic: json['isPublic'],
-      tags: json['tags'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      comments: (json['comments'] as List<dynamic>)
-          .map((e) => Comment.fromJson(e))
-          .toList(),
-
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'userId': userId,
-      'title' : title,
-      'desc': desc,
-      'coverArticle' : coverArticle,
-      'isPublic': isPublic,
-      'tags': tags,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'comments': comments.map((e) => e.toJson().toList()),
-    };
-  }
-
-  @override
-  String toString() {
-    return 'GetArticles{id: $id, userId: $userId, title: $title, desc: $desc, coverArticle: $coverArticle, isPublic: $isPublic, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt, comments: $comments}';
-  }
-}
-
-class Comment {
-  var id, userId, comment, date;
-
-  Comment.instance({
-    this.id,
-    this.userId,
-    this.comment,
-    this.date,
-  });
-
-  Comment();
-
-  @override
-  String toString() {
-    return 'Comment{id: $id, userId: $userId, comment: $comment, date: $date}';
-  }
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment.instance(
-      id: json['_id'],
-      userId: json['userId'],
-      comment: json['comment'],
-      date: json['date'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'userId': userId,
-      'comment': comment,
-      'date': date,
-    };
-  }
-
-}
-
-class GetArticlesController extends GetxController {
+class ArticleController extends GetxController {
   final userController = Get.find<CurrentUserController>();
   final currentUserControl = Get.find<CurrentUserController>();
 
   late GetUser? currentUser = userController.currentUser.value;
-  List getArticlesList = <GetArticles>[].obs;
-  var postLoading = true.obs;
+  List articleList = <Article>[].obs;
+  var articleLoading = true.obs;
 
   @override
   void onInit() {
@@ -124,20 +25,19 @@ class GetArticlesController extends GetxController {
 
   readData() async {
     try {
-      postLoading.value = true;
-      List<GetArticles>? _getArticlesList = await getArticlesService();
-      if (_getArticlesList != null) {
-        getArticlesList.assignAll(_getArticlesList);
+      articleLoading.value = true;
+      List<Article>? getArticles = await getArticlesService();
+      if (getArticles != null) {
+        articleList.assignAll(getArticles);
       } else {
         throw Exception('Failed to load Articles Controller');
       }
     } finally {
-      postLoading.value = false;
+      articleLoading.value = false;
     }
     update();
   }
-
-  Future<List<GetArticles>?> getArticlesService() async {
+  Future<List<Article>?> getArticlesService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     final userId = prefs.getString('userId');
@@ -148,14 +48,111 @@ class GetArticlesController extends GetxController {
     );
 
     if (response.statusCode == 200) {
-      List postsResponse = jsonDecode(response.body);
-      return postsResponse.map((e) => GetArticles.fromJson(e)).toList();
-      // return GetPosts.fromJson(postsResponse);
+      List articlesResponse = jsonDecode(response.body);
+      return articlesResponse.map((e) => Article.fromJson(e)).toList();
+      // return Getarticles.fromJson(articlesResponse);
     } else {
       throw Exception('Failed to load Articles');
     }
   }
+
+
+
+  void addArticles(Article t) async {
+    await createService(t);
+    articleList.add(t);
+    readData();
+    // homeController.readContents();
+  }
+
+  Future<void> createService(Article t) async {
+    final response = await post(
+      Uri.parse(Endpoint.createArticle),
+      headers: Endpoint.$httpHeader,
+      body: jsonEncode(t.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed Create article');
+    }
+  }
+
+  Article? findArticleById(String? id) {
+    for (Article t in articleList) {
+      if (t.id == id) {
+        return t;
+      }
+    }
+    return null;
+  }
+
+  void updateArticle(Article t) async {
+    update();
+    await updateService(t);
+    // homeController.readContents();
+  }
+
+  Future<void> updateService(Article t) async {
+    final response = await put(
+      Uri.parse('${Endpoint.updateArticle}/${t.id}'),
+      headers: Endpoint.$httpHeader,
+      body: jsonEncode(t.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed Delete article . Error: ${response.statusCode}');
+    }
+  }
+
+  void deleteArticle(String id) async {
+    Article? article = findArticleById(id);
+    await removeService(article!);
+    articleList.remove(article);
+    update();
+  }
+
+  Future<void> removeService(Article t) async {
+    final response = await delete(
+      Uri.parse('${Endpoint.deleteArticle}/${t.id}'),
+      headers: Endpoint.$httpHeader,
+      body: json.encode(t),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed Delete article . Error: ${response.statusCode}');
+    }
+  }
 }
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 // "_id": "63fed9cbf6f6281b499d23fc",
 // "userId": "6397fe5fbfe53e713a1c10d8",

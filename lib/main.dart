@@ -1,9 +1,9 @@
 import 'package:eportfolio_mobile/controllers/auth.dart';
 import 'package:eportfolio_mobile/routes/route_pages.dart';
-import 'package:eportfolio_mobile/views/components/drop_down.dart';
+import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/login.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticleController.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/get-posts-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
@@ -15,9 +15,10 @@ import 'package:get/get.dart';
 void main() {
   Get.lazyPut(() => CurrentUserController());
   Get.put(HomeController());
-  Get.put(GetPostsController());
-  // Get.lazyPut(() => GetPostsController());
-  Get.put(GetArticlesController());
+  Get.put(PostController());
+  Get.put(ArticleController());
+  // Get.lazyPut(() => ArticleController());
+
   Get.put(BottomSheetController());
   Get.put(ProfilePageController());
 

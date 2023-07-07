@@ -1,8 +1,8 @@
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
-import 'package:eportfolio_mobile/views/components/drop_down.dart';
+import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:flutter/material.dart';
 

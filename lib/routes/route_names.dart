@@ -7,6 +7,9 @@ abstract class RouteNames {
   static const addPost ='/add-post';
   static const editPost ='/edit-post';
 
+  static const addArticle ='/add-article';
+  static const editArticle ='/edit-article';
+
   static const home ='/home-page';
   static const discovery ='/discovery-page';
   static const profile = '/profile-page';

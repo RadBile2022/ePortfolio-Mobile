@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -50,7 +50,7 @@ class HomeController extends GetxController {
     try {
       postLoading.value = true;
       List<Post>? _getPostsList = await getPostsTimeLineService();
-      List<GetArticles>? _getArticlesList = await getArticlesTimeLineService();
+      List<Article>? _getArticlesList = await getArticlesTimeLineService();
       if (_getArticlesList != null && _getPostsList != null) {
         all.clear();
         all.addAll(_getPostsList);
@@ -86,7 +86,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<List<GetArticles>?> getArticlesTimeLineService() async {
+  Future<List<Article>?> getArticlesTimeLineService() async {
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     final userId = prefs.getString('userId');
@@ -98,7 +98,7 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200) {
       List postsResponse = jsonDecode(response.body);
-      return postsResponse.map((e) => GetArticles.fromJson(e)).toList();
+      return postsResponse.map((e) => Article.fromJson(e)).toList();
       // return GetPosts.fromJson(postsResponse);
     } else {
       throw Exception('Failed to load Articles Time Line');

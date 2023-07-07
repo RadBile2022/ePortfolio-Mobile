@@ -1,4 +1,6 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/add-article-page.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/edit-article-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/add-post-page.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/edit-post-page.dart';
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
@@ -25,6 +27,8 @@ class PageRouteApp {
 
     GetPage(name: RouteNames.addPost, page: ()=>   AddPostPage()),
     GetPage(name: RouteNames.editPost, page: ()=>   EditPostPage()),
+    GetPage(name: RouteNames.addArticle, page: ()=>   AddArticlePage()),
+    GetPage(name: RouteNames.editArticle, page: ()=>   EditArticlePage()),
 
   ];
 }

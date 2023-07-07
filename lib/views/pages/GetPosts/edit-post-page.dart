@@ -1,10 +1,11 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetPostsCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EditPostPage extends StatelessWidget {
-  final postController = Get.find<GetPostsController>();
+  final postController = Get.find<PostController>();
   final idPost = Get.arguments;
   late Post? post = postController.findPostById(idPost);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

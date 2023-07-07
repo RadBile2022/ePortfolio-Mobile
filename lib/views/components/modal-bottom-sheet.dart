@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyAppS());
+}
 
 // class MyApp extends StatelessWidget {
 //   final VoidCallback $onTapEditHoriz;
@@ -45,6 +45,29 @@ import 'package:get/get.dart';
 //   }
 // }
 
+class ModalBottomSheetHoriz  {
+
+  static void show(BuildContext context, VoidCallback onTapEdit, VoidCallback onTapDelete) {
+    showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16.0),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return BottomSheetHoriz(
+          $onTapEditHoriz: onTapEdit,
+          $onTapDeleteHoriz: onTapDelete,
+        );
+      },
+    );
+  }
+
+
+
+}
+
 class BottomSheetHoriz extends StatelessWidget {
   final VoidCallback $onTapEditHoriz;
   final VoidCallback $onTapDeleteHoriz;
@@ -55,13 +78,26 @@ class BottomSheetHoriz extends StatelessWidget {
     required this.$onTapDeleteHoriz,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
-        ListTile(
+        const ListTile(
+          tileColor: Colors.teal,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(16.0),
+            ),
+          ),
           title: Center(
-            child: Text('Pilih Operasi'),
+            child: Text(
+              'Pilih Operasi',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         ListTile(
@@ -80,15 +116,29 @@ class BottomSheetHoriz extends StatelessWidget {
           onTap: $onTapEditHoriz,
         ),
         ListTile(
-          leading: Icon(Icons.delete, color: Colors.red,),
-          title: Text('Delete', style: TextStyle(color: Colors.red),),
+          leading: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          title: Text(
+            'Delete',
+            style: TextStyle(color: Colors.red),
+          ),
           onTap: $onTapDeleteHoriz,
         ),
       ],
     );
   }
 }
-
+// buat divider facebook
+// Container(
+// height: 7, // Ketebalan divider
+// margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 170), // Jarak vertikal di antara divider
+// decoration: BoxDecoration(
+// color: Colors.grey, // Warna divider
+// borderRadius: BorderRadius.circular(8.0), // Atur radius sudut di sini
+// ),
+// ),
 class BottomSheetController extends GetxController {
   RxBool isBottomSheetOpen = false.obs;
   RxString id = ''.obs;
@@ -96,7 +146,6 @@ class BottomSheetController extends GetxController {
   void toggleBottomSheet() {
     isBottomSheetOpen.value = !isBottomSheetOpen.value;
   }
-
 }
 
 /// MENGGUNAKAN STATEFUL WIDGET

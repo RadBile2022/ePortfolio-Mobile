@@ -1,8 +1,7 @@
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
-import 'package:eportfolio_mobile/views/components/drop_down.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetArticlesCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ class ArticleAccountCard extends StatelessWidget {
   /// Kartunya Akun Article
   final GetUser articleUser;
   final GetUser currentUser;
-  final GetArticles getArticles;
+  final Article getArticles;
   final GestureTapCallback $onTapAccount;
   final VoidCallback $onTapMoreHoriz;
 

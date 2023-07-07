@@ -1,10 +1,8 @@
 import 'package:eportfolio_mobile/views/components/article_account_card.dart';
 import 'package:eportfolio_mobile/views/components/article_title_container.dart';
-import 'package:eportfolio_mobile/views/components/drop_down.dart';
+import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/get-articles-page.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
@@ -53,58 +51,62 @@ class Home extends StatelessWidget {
       ),
       body: GetBuilder<HomeController>(
         builder: ($) {
-          return ListView.builder(
-            itemCount: $.all.length,
-            itemBuilder: (context, index) {
-              var element = $.all[index];
-              var identy = $.contentUsers[index];
-              if (element.title != null && element.title!.isNotEmpty) {
-                return CardWidgetBot(
-                  widget: Column(
-                    children: [
-                      ArticleAccountCard(
-                        articleUser: identy,
-                        getArticles: element,
-                        $onTapAccount: $onTapAccount,
-                        $onTapMoreHoriz: $onTapMoreHoriz,
+          return
 
-                        currentUser: getUserCtrl.currentUser.value,
-                      ),
-                      ArticleTitleContainer(
-                        getArticles: element,
-                      ),
-                      HomeMarkdown(
-                        desc: element.desc,
-                        $onButtonMore: $onButtonMore,
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return CardWidgetBot(
-                  widget: Column(
-                    children: [
-                      PostAccountCard(
-                        currentUser: getUserCtrl.currentUser.value,
-                        postUser: identy,
-                        getPosts: element,
-                        $onTapAccount: $onTapAccount,
-                        $onTapMoreHoriz: $onTapMoreHoriz,
+          CustomScrollView(
+            slivers: [
+              SliverList(delegate: SliverChildBuilderDelegate((context, index) {
+            var element = $.all[index];
+            var identy = $.contentUsers[index];
+            if (element.title != null && element.title!.isNotEmpty) {
+              return CardWidgetBot(
+                widget: Column(
+                  children: [
+                    ArticleAccountCard(
+                      articleUser: identy,
+                      getArticles: element,
+                      $onTapAccount: $onTapAccount,
+                      $onTapMoreHoriz: $onTapMoreHoriz,
 
-                      ),
-                      // ArticleTitleContainer(
-                      //   getArticles: getArticles,
-                      // ),
-                      HomeMarkdown(
-                        desc: element.desc,
-                        $onButtonMore: $onButtonMore,
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
+                      currentUser: getUserCtrl.currentUser.value,
+                    ),
+                    ArticleTitleContainer(
+                      getArticles: element,
+                    ),
+                    HomeMarkdown(
+                      desc: element.desc,
+                      $onButtonMore: $onButtonMore,
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return CardWidgetBot(
+                widget: Column(
+                  children: [
+                    PostAccountCard(
+                      currentUser: getUserCtrl.currentUser.value,
+                      postUser: identy,
+                      getPosts: element,
+                      $onTapAccount: $onTapAccount,
+                      $onTapMoreHoriz: $onTapMoreHoriz,
+
+                    ),
+                    // ArticleTitleContainer(
+                    //   getArticles: getArticles,
+                    // ),
+                    HomeMarkdown(
+                      desc: element.desc,
+                      $onButtonMore: $onButtonMore,
+                    ),
+                  ],
+                ),
+              );
+            }},childCount: $.all.length),
+          ),
+            ],
           );
+
         },
       ),
     );
