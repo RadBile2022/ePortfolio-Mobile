@@ -70,13 +70,14 @@ class PostsTab extends StatelessWidget {
   //   return Get.toNamed(RouteNames.addPost);
   // }
 
-  Future?  $onTapEditHoriz () {
-    String id =    bottomSheetController.id.value;
+  Future?  $onTapEditHoriz (BuildContext context, String id) {
+    Navigator.pop(context);
+
     Get.toNamed(RouteNames.editPost, arguments: id);
+
   }
 
-  void $onTapDeleteHoriz  (BuildContext context)  {
-    String id =    bottomSheetController.id.value;
+  void $onTapDeleteHoriz  (BuildContext context, String id)  {
     // print(id);
     postController.deletePost(id);
 
@@ -87,6 +88,8 @@ class PostsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    postController.readData();
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: CustomScrollView(
@@ -109,7 +112,7 @@ class PostsTab extends StatelessWidget {
                       getPosts: post,
                       $onTapAccount: $onTapAccount,
                       $onTapMoreHoriz: () async {
-                        ModalBottomSheetHoriz.show(context, $onTapEditHoriz, ()=>$onTapDeleteHoriz(context),);
+                        ModalBottomSheetHoriz.show(context, ()=>$onTapEditHoriz(context,post.id), ()=>$onTapDeleteHoriz(context,post.id),);
 
                         print(post.id);
                         bottomSheetController.toggleBottomSheet();

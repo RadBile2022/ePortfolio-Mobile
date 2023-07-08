@@ -87,7 +87,7 @@ class PostController extends GetxController {
   void updatePost(Post t) async {
     update();
     await updateService(t);
-    // homeController.readContents();
+    homeController.readContents();
   }
 
   Future<void> updateService(Post t) async {

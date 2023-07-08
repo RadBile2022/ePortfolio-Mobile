@@ -1,6 +1,7 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
 import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
+import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,8 @@ class EditPostPage extends StatelessWidget {
 
       // Get.find<GetPostsController>().addPosts(newPost);
       postController.updatePost(post!);
+      Get.find<HomeController>().readContents();
+
       Get.offAllNamed(RouteNames.tabMain);
     }
   }
@@ -33,7 +36,7 @@ class EditPostPage extends StatelessWidget {
     print(post!.desc);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Posts'),
+        title: Text('Edit Post'),
       ),
       body: Form(
         key: _formKey,

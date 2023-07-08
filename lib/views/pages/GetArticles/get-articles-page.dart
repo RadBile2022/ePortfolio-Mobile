@@ -56,8 +56,10 @@ class ArticlesTab extends StatelessWidget {
     // bottomSheetController.toggleBottomSheet();
   }
 
-  Future? $onTapEditHoriz(String id) {
+  Future? $onTapEditHoriz(BuildContext context, String id) {
+    Navigator.pop(context);
     Get.toNamed(RouteNames.editArticle, arguments: id);
+
   }
 
   Future? $onTapDeleteHoriz(BuildContext context, Article t) {
@@ -71,6 +73,8 @@ class ArticlesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    articleController.readData();
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: CustomScrollView(
@@ -95,7 +99,7 @@ class ArticlesTab extends StatelessWidget {
                       $onTapMoreHoriz: () {
                         ModalBottomSheetHoriz.show(
                           context,
-                          ()=> $onTapEditHoriz(article.id),
+                          ()=> $onTapEditHoriz(context, article.id),
                           () => $onTapDeleteHoriz(context, article),
                         );
                       },

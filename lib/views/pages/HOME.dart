@@ -1,8 +1,11 @@
+import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/components/article_account_card.dart';
 import 'package:eportfolio_mobile/views/components/article_title_container.dart';
 import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
+import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticleController.dart';
+import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
@@ -41,74 +44,120 @@ class Home extends StatelessWidget {
   Future?  $onTapMoreHoriz  () {
     bottomSheetController.toggleBottomSheet();
   }
+
+
+  Future<void> onRefresh () async {
+    final home_ = Get.find<HomeController>();
+    home_.readContents();
+    await Future.delayed(Duration(seconds: 2));
+  }
+
+
+  Future?  $onTapEditHoriz (BuildContext context, String id) {
+    Navigator.pop(context);
+
+    Get.toNamed(RouteNames.editPost, arguments: id);
+  }
+
+  void $onTapDeleteHoriz  (BuildContext context, String id)  {
+    Get.find<PostController>().deletePost(id);
+    Get.find<HomeController>().readContents();
+
+    Navigator.pop(context);
+  }
+  Future?  $onTapEditHoriz1 (BuildContext context, String id) {
+    Navigator.pop(context);
+
+    Get.toNamed(RouteNames.editArticle, arguments: id);
+  }
+
+  void $onTapDeleteHoriz1  (BuildContext context, String id)  {
+    Get.find<ArticleController>().deleteArticle(id);
+    Get.find<HomeController>().readContents();
+
+    Navigator.pop(context);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+    Get.find<HomeController>().readContents();
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('ePortfolio GFT ACADEMY'),
         automaticallyImplyLeading: false,
       ),
-      body: GetBuilder<HomeController>(
+      body: RefreshIndicator(onRefresh: onRefresh,child:       GetBuilder<HomeController>(
         builder: ($) {
           return
 
-          CustomScrollView(
-            slivers: [
-              SliverList(delegate: SliverChildBuilderDelegate((context, index) {
-            var element = $.all[index];
-            var identy = $.contentUsers[index];
-            if (element.title != null && element.title!.isNotEmpty) {
-              return CardWidgetBot(
-                widget: Column(
-                  children: [
-                    ArticleAccountCard(
-                      articleUser: identy,
-                      getArticles: element,
-                      $onTapAccount: $onTapAccount,
-                      $onTapMoreHoriz: $onTapMoreHoriz,
+            CustomScrollView(
+              slivers: [
+                SliverList(delegate: SliverChildBuilderDelegate((context, index) {
+                  var element = $.all[index];
+                  var identy = $.contentUsers[index];
+                  if (element.title != null && element.title!.isNotEmpty) {
+                    return CardWidgetBot(
+                      widget: Column(
+                        children: [
+                          ArticleAccountCard(
+                            articleUser: identy,
+                            getArticles: element,
+                            $onTapAccount: $onTapAccount,
+                            $onTapMoreHoriz: (){
+                              ModalBottomSheetHoriz.show(context,()=> $onTapEditHoriz1(context,element.id), ()=>$onTapDeleteHoriz1(context, element.id),);
 
-                      currentUser: getUserCtrl.currentUser.value,
-                    ),
-                    ArticleTitleContainer(
-                      getArticles: element,
-                    ),
-                    HomeMarkdown(
-                      desc: element.desc,
-                      $onButtonMore: $onButtonMore,
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return CardWidgetBot(
-                widget: Column(
-                  children: [
-                    PostAccountCard(
-                      currentUser: getUserCtrl.currentUser.value,
-                      postUser: identy,
-                      getPosts: element,
-                      $onTapAccount: $onTapAccount,
-                      $onTapMoreHoriz: $onTapMoreHoriz,
+                            },
 
-                    ),
-                    // ArticleTitleContainer(
-                    //   getArticles: getArticles,
-                    // ),
-                    HomeMarkdown(
-                      desc: element.desc,
-                      $onButtonMore: $onButtonMore,
-                    ),
-                  ],
+                            currentUser: getUserCtrl.currentUser.value,
+                          ),
+                          ArticleTitleContainer(
+                            getArticles: element,
+                          ),
+                          HomeMarkdown(
+                            desc: element.desc,
+                            $onButtonMore: $onButtonMore,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return CardWidgetBot(
+                      widget: Column(
+                        children: [
+                          PostAccountCard(
+                            currentUser: getUserCtrl.currentUser.value,
+                            postUser: identy,
+                            getPosts: element,
+                            $onTapAccount: $onTapAccount,
+                            $onTapMoreHoriz: (){
+                              ModalBottomSheetHoriz.show(context,()=> $onTapEditHoriz(context, element.id), ()=>$onTapDeleteHoriz(context, element.id),);
+
+                            }
+                            ,
+
+                          ),
+                          // ArticleTitleContainer(
+                          //   getArticles: getArticles,
+                          // ),
+                          HomeMarkdown(
+                            desc: element.desc,
+                            $onButtonMore: $onButtonMore,
+                          ),
+                        ],
+                      ),
+                    );
+                  }},childCount: $.all.length),
                 ),
-              );
-            }},childCount: $.all.length),
-          ),
-            ],
-          );
+              ],
+            );
 
         },
-      ),
+      ),)
+
     );
 
     // SingleChildScrollView(

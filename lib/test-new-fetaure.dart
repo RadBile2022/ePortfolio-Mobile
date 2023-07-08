@@ -53,36 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
         onRefresh: _onRefresh,
         child: ListView.builder(
           controller: _scrollController,
-          itemCount: items.length + 1,
+          itemCount: items.length ,
           itemBuilder: (context, index) {
-            if (index == 0) {
-              return Container(
-                padding: EdgeInsets.all(16.0),
-                alignment: Alignment.center,
-                child: _isRefreshing
-                    ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 16.0,
-                      height: 16.0,
-                      child: CircularProgressIndicator(strokeWidth: 2.0),
-                    ),
-                    SizedBox(width: 8.0),
-                    Text(
-                      'Refreshing...',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                )
-                    : Text(
-                  'Pull to Refresh',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              );
-            }
 
-            final itemIndex = index - 1;
+            final itemIndex = index - 0;
             return ListTile(
               title: Text(items[itemIndex]),
             );

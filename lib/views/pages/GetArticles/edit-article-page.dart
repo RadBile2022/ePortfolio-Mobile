@@ -35,7 +35,7 @@ class EditArticlePage extends StatelessWidget {
     print(article!.desc);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Posts'),
+        title: Text('Edit Article'),
       ),
       body: Form(
         key: _formKey,
