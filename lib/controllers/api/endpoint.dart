@@ -19,4 +19,8 @@ class Endpoint {
 
   static const getPostsTimeLine = '$_apiUrl/api/posts/timeline/all';
   static const getArticlesTimeLine = '$_apiUrl/api/articles/timeline/all';
+
+
+  String userIdRadar ='63dc6409165337cbbf8a1d8b';
+  String userIdPakNur ='6397fe5fbfe53e713a1c10d8';
 }

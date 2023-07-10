@@ -1,28 +1,21 @@
-import 'dart:convert';
-
-import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/components/post_account_card.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
-import 'package:eportfolio_mobile/views/components/profile-containers.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
-import 'package:eportfolio_mobile/views/pages/HOME.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
-class PostsTab extends StatelessWidget {
+class PostsTabPage extends StatelessWidget {
   final bottomSheetController = Get.find<BottomSheetController>();
   final postController = Get.find<PostController>();
 
-  final GetUser postUser;
+  final User postUser;
   final List<dynamic> postAll;
 
-  PostsTab({
+  PostsTabPage({
     super.key,
     required this.postUser,
     required this.postAll,
@@ -70,14 +63,13 @@ class PostsTab extends StatelessWidget {
   //   return Get.toNamed(RouteNames.addPost);
   // }
 
-  Future?  $onTapEditHoriz (BuildContext context, String id) {
+  Future? $onTapEditHoriz(BuildContext context, String id) {
     Navigator.pop(context);
 
     Get.toNamed(RouteNames.editPost, arguments: id);
-
   }
 
-  void $onTapDeleteHoriz  (BuildContext context, String id)  {
+  void $onTapDeleteHoriz(BuildContext context, String id) {
     // print(id);
     postController.deletePost(id);
 
@@ -95,9 +87,55 @@ class PostsTab extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: ContainerButtonProfile(
-              text: 'Add Post',
-              $addOnPressed: $addOnPressed,
+            child: CardWidgetX(
+              widget: Container(
+                  margin: const EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        margin: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          'Postingan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: $addOnPressed,
+                        child: Row(
+                          children: [
+                            ClipOval(
+                              child: Image.network(
+                                'https://api-portfolio.gft.academy/storage/images/profilePicture_1675396879415.jpg',
+                                width: 55,
+                                height: 55,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 16),
+                              width: 250,
+                              child: Text(
+                                'Apa yang Anda Pikirkan ?',
+                                style: TextStyle(fontSize: 17),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 16),
+                              child: Icon(
+                                Icons.photo_library_rounded,
+                                size: 26,
+                                color: Colors.green,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
             ),
           ),
           SliverList(
@@ -109,28 +147,20 @@ class PostsTab extends StatelessWidget {
                     PostAccountCard(
                       currentUser: postUser,
                       postUser: postUser,
-                      getPosts: post,
+                      post: post,
                       $onTapAccount: $onTapAccount,
                       $onTapMoreHoriz: () async {
-                        ModalBottomSheetHoriz.show(context, ()=>$onTapEditHoriz(context,post.id), ()=>$onTapDeleteHoriz(context,post.id),);
+                        ModalBottomSheetHoriz.show(
+                          context,
+                          () => $onTapEditHoriz(context, post.id),
+                          () => $onTapDeleteHoriz(context, post.id),
+                        );
 
                         print(post.id);
                         bottomSheetController.toggleBottomSheet();
                         bottomSheetController.id.value = post.id;
 
-                        // final response = await delete(
-                        //   Uri.parse('${Endpoint.updatePost}/${post.id}'),
-                        //   headers: Endpoint.$httpHeader,
-                        //   body: jsonEncode(post.toJson()),
-                        // );
-                        //
-                        //
-                        // if (response.statusCode == 200) {
-                        //   print('Customer deleted successfully!');
-                        // } else {
-                        //   print('Failed to delete customer. Error: ${response.statusCode}');
-                        // }
-                      },
+                                    },
                     ),
                     HomeMarkdown(
                       desc: post.desc,

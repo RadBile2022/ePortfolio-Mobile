@@ -1,15 +1,15 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticleController.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPost.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPostController.dart';
+
+import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EditArticlePage extends StatelessWidget {
-  final articleController = Get.find<ArticleController>();
-  final idArticle = Get.arguments;
-  late Article? article = articleController.findArticleById(idArticle);
+class EditPostPage extends StatelessWidget {
+  final postController = Get.find<PostController>();
+  final idPost = Get.arguments;
+  late Post? post = postController.findPostById(idPost);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _postController = TextEditingController();
 
@@ -18,24 +18,26 @@ class EditArticlePage extends StatelessWidget {
     if (_formKey.currentState!.validate()) {
       String postText = _postController.text;
 
-      article!.desc = postText;
-      article!.userId = '63dc6409165337cbbf8a1d8b';
-      article!.isPublic = false;
-      article!.comments = [];
+      post!.desc = postText;
+      post!.userId = '63dc6409165337cbbf8a1d8b';
+      post!.isPublic = false;
+      post!.comments = [];
 
       // Get.find<GetPostsController>().addPosts(newPost);
-      articleController.updateArticle(article!);
+      postController.updatePost(post!);
+      Get.find<HomeController>().readContents();
+
       Get.offAllNamed(RouteNames.tabMain);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _postController.text = article!.desc;
-    print(article!.desc);
+    _postController.text = post!.desc;
+    print(post!.desc);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Article'),
+        title: Text('Edit Post'),
       ),
       body: Form(
         key: _formKey,
@@ -46,13 +48,13 @@ class EditArticlePage extends StatelessWidget {
               TextFormField(
                 controller: _postController,
                 decoration: InputDecoration(
-                  labelText: 'Tulis Article Anda',
+                  labelText: 'Tulis Postingan Anda',
                   border: OutlineInputBorder(),
                 ),
                 maxLines: null,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Isi article tidak boleh kosong';
+                    return 'Isi postingan tidak boleh kosong';
                   }
                   return null;
                 },
@@ -60,7 +62,7 @@ class EditArticlePage extends StatelessWidget {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _submitPost,
-                child: Text('Article'),
+                child: Text('Post'),
               ),
             ],
           ),

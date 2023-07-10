@@ -2,23 +2,23 @@ import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/routes/route_names.dart';
-import 'package:eportfolio_mobile/views/pages/TABSmain/TABcontroller.dart';
+import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  final tabController = Get.put(TabControllers());
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> prefsInstance =
+      SharedPreferences.getInstance();
 
   Future<void> loginWithEmail() async {
     try {
       // final body = {"email": emailController.text, "password": passwordController.text};
+      // final body = {"email": "rad@gmail.com", "password": "admin"};
       final body = {"email": "wahradar511@gmail.com", "password": "123simpan"};
 
       final response = await post(
@@ -30,30 +30,18 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json['message'] == 'success') {
-          var jwt = json['jwt'];
-          var userId = json['userId'];
-
-          final SharedPreferences prefs = await _prefs;
-          prefs.setString('jwt', jwt);
-          prefs.setString('userId', userId);
-
-          // final c = prefs.getString('userId');
-          // print(c);
-          emailController.clear();
-          passwordController.clear();
+          final SharedPreferences prefs = await prefsInstance;
+          prefs.setString('jwt', json['jwt']);
+          prefs.setString('userId', json['userId']);
 
           Get.offAllNamed(RouteNames.tabMain);
-          tabController.changeTab(2);
         } else {
           throw jsonDecode(response.body)["Message"] ??
-              "FIELD__RESPONSE Error Ocurred";
+              "FIELD__RESPONSE Error Occurred";
         }
       } else {
-        // nanti liat cara ganti throw dengan respon yang ada diserver
-        print('hallo dek -- Email atau Password Salah');
-
-        throw jsonDecode(response.body)["Message"] ??
-            "Email atau Password Salah";
+        // nanti liat cara ganti throw dengan respon yang ada diserver,
+        throw Exception("Email atau Password Salah");
       }
     } catch (e) {
       Get.back();
@@ -61,9 +49,9 @@ class LoginController extends GetxController {
         context: Get.context!,
         builder: (context) {
           return SimpleDialog(
-            title: Text('Error'),
-            contentPadding: EdgeInsets.all(20),
-            children: [Text(e.toString())],
+            title: const Text('Error'),
+            contentPadding: const EdgeInsets.all(20),
+            children: [Text(e.toString().replaceRange(0, 10, ''))],
           );
         },
       );

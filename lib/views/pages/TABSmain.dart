@@ -1,22 +1,24 @@
-import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/account.dart';
-import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPostController.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPostController.dart';
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
 import 'package:eportfolio_mobile/views/pages/PROFILE.dart';
-import 'package:eportfolio_mobile/views/pages/TABSmain/TABcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
+
+class TabControllers extends GetxController {
+  var currentIndex = 0.obs;
+
+  void changeTab(int index) {
+    currentIndex.value = index;
+  }
+}
+
 
 class TabsMain extends StatelessWidget {
-  final bottomSheetController = Get.find<BottomSheetController>();
   final postController = Get.find<PostController>();
   final tabController = Get.put(TabControllers());
 
-
+  TabsMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +28,8 @@ class TabsMain extends StatelessWidget {
           index: tabController.currentIndex.value,
           children: [
             Home(),
-            // CustomerListPage(),
             Account(),
-            ProfilePage(),
+            Profile(),
           ],
         ),
       ),

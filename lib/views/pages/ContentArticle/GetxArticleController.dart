@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/GetxArticle.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILECtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +15,7 @@ class ArticleController extends GetxController {
   final userController = Get.find<CurrentUserController>();
   final currentUserControl = Get.find<CurrentUserController>();
 
-  late GetUser? currentUser = userController.currentUser.value;
+  late User? currentUser = userController.currentUser.value;
   List articleList = <Article>[].obs;
   var articleLoading = true.obs;
 

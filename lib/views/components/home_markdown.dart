@@ -26,7 +26,7 @@ class HomeMarkdown extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.topRight,
-          child: TextButtonWidget($onButtonMore: $onButtonMore),
+          child: desc.toString().length <=180 ? Container() : TextButtonWidget($onButtonMore: $onButtonMore),
         )
       ],
     );

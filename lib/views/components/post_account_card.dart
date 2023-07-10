@@ -2,15 +2,16 @@ import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
 import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPost.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:flutter/material.dart';
 
 class PostAccountCard extends StatelessWidget {
   /// Kartunya Akun Post
-  final GetUser currentUser;
-  final GetUser postUser;
-  final Post getPosts;
+  final User currentUser;
+  final User postUser;
+  final Post post;
   final GestureTapCallback $onTapAccount;
   final VoidCallback $onTapMoreHoriz;
 
@@ -19,7 +20,7 @@ class PostAccountCard extends StatelessWidget {
     super.key,
     required this.currentUser,
     required this.postUser,
-    required this.getPosts,
+    required this.post,
     required this.$onTapAccount,
     required this.$onTapMoreHoriz,
   });
@@ -67,17 +68,17 @@ class PostAccountCard extends StatelessWidget {
                       Row(
                         children: [
                           SubTitleWidget(
-                            data: getPosts.createdAt == 'today'
+                            data: post.createdAt == 'today'
                                 ? 'Today .'
                                 : postUser.createdAt.toString(),
                           ),
-                          if (!getPosts.isPublic) const LockIcon12(),
+                          if (!post.isPublic) const LockIcon12(),
                         ],
                       )
                     ],
                   ),
                 ),
-                if (getPosts.userId == currentUser.id)
+                if (post.userId == currentUser.id)
                   MoreHorizIcon24($onTapMoreHoriz: $onTapMoreHoriz)
               ],
             ),

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPost.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILECtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PostController extends GetxController {
   final homeController = Get.find<HomeController>();
   final userController = Get.find<CurrentUserController>();
-  late GetUser? currentUser = userController.currentUser.value;
+  late User? currentUser = userController.currentUser.value;
   List postList = <Post>[].obs;
   var postLoading = true.obs;
 

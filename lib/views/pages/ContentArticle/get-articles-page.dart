@@ -1,35 +1,28 @@
-import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
 import 'package:eportfolio_mobile/routes/route_names.dart';
 import 'package:eportfolio_mobile/views/components/article_account_card.dart';
 import 'package:eportfolio_mobile/views/components/article_title_container.dart';
-import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
 import 'package:eportfolio_mobile/views/components/modal-bottom-sheet.dart';
-import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
-import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
 import 'package:eportfolio_mobile/views/components/home_markdown.dart';
 import 'package:eportfolio_mobile/views/components/profile-containers.dart';
-import 'package:eportfolio_mobile/views/components/profile_bar.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticleController.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/Btn_Cpn_About.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/GetxArticle.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/GetxArticleController.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/Card_Cpn_About.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 
-class ArticlesTab extends StatelessWidget {
+class ArticlesTabPage extends StatelessWidget {
   final articleController = Get.find<ArticleController>();
 
   final bottomSheetController = Get.find<BottomSheetController>();
   final profilePageController = Get.find<ProfilePageController>();
 
   // final GetUser currentUser;
-  final GetUser articleUser;
+  final User articleUser;
   final List<dynamic> articleAll;
 
-  ArticlesTab({
+  ArticlesTabPage({
     super.key,
     required this.articleUser,
     required this.articleAll,
@@ -94,7 +87,7 @@ class ArticlesTab extends StatelessWidget {
                     ArticleAccountCard(
                       currentUser: articleUser,
                       articleUser: articleUser,
-                      getArticles: article,
+                      article: article,
                       $onTapAccount: () {},
                       $onTapMoreHoriz: () {
                         ModalBottomSheetHoriz.show(
@@ -105,7 +98,7 @@ class ArticlesTab extends StatelessWidget {
                       },
                     ),
                     ArticleTitleContainer(
-                      getArticles: article,
+                      article: article,
                     ),
                     HomeMarkdown(
                       desc: article.desc,

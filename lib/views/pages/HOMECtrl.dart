@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 import 'package:eportfolio_mobile/controllers/api/endpoint.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/GetxPost.dart';
-import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/GetxArticle.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/GetxPost.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILECtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
-  List<dynamic> all = [].obs;
-  List contentUsers = <GetUser>[].obs;
-
-  final userController = Get.find<CurrentUserController>();
-  late GetUser? currentUser = userController.currentUser.value;
+  final userCtrl = Get.find<CurrentUserController>();
+  late User? currentUser = userCtrl.currentUser.value;
+  List contentList = <dynamic>[].obs;
+  List contentsUsers = <User>[].obs;
   var postLoading = true.obs;
 
   @override
@@ -22,16 +22,15 @@ class HomeController extends GetxController {
     readContents();
     readUsers();
   }
-    readUsers() async {
-    for (var item in all) {
-      var userId = item.userId;
-     contentUsers.add(await getUserService(userId)) ;
-      print(userId);
-    }
-    print(contentUsers);
 
+  Future<void> readUsers() async {
+    for (var content in contentList) {
+      var userId = content.userId;
+      contentsUsers.add(await getUserService(userId));
+    }
   }
-  Future<GetUser?> getUserService(String userId) async {
+
+  Future<User?> getUserService(String userId) async {
     final response = await get(
       Uri.parse('${Endpoint.getUser}/$userId'),
       headers: Endpoint.$httpHeader,
@@ -39,24 +38,22 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200) {
       var aboutMe = jsonDecode(response.body);
-      return GetUser.fromJson(aboutMe);
+      return User.fromJson(aboutMe);
     } else {
       throw Exception('Failed to load User');
     }
   }
 
-
-   readContents() async {
+  readContents() async {
     try {
       postLoading.value = true;
-      List<Post>? _getPostsList = await getPostsTimeLineService();
-      List<Article>? _getArticlesList = await getArticlesTimeLineService();
-      if (_getArticlesList != null && _getPostsList != null) {
-        all.clear();
-        all.addAll(_getPostsList);
-        all.addAll(_getArticlesList);
-        all.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-
+      List<Post>? postListTimeLine = await getPostsTimeLineService();
+      List<Article>? articleListTimeLine = await getArticlesTimeLineService();
+      if (articleListTimeLine != null && postListTimeLine != null) {
+        contentList.clear();
+        contentList.addAll(postListTimeLine);
+        contentList.addAll(articleListTimeLine);
+        contentList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       } else {
         throw Exception(
             'Failed to load Posts && Articles Time Line Controller');
@@ -68,12 +65,8 @@ class HomeController extends GetxController {
   }
 
   Future<List<Post>?> getPostsTimeLineService() async {
-    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    final SharedPreferences prefs = await _prefs;
-    final userId = prefs.getString('userId');
-    // const userId = '6397fe5fbfe53e713a1c10d8';
     final response = await get(
-      Uri.parse('${Endpoint.getPostsTimeLine}/$userId'),
+      Uri.parse('${Endpoint.getPostsTimeLine}/63dc6409165337cbbf8a1d8b'),
       headers: Endpoint.$httpHeader,
     );
 
@@ -87,12 +80,8 @@ class HomeController extends GetxController {
   }
 
   Future<List<Article>?> getArticlesTimeLineService() async {
-    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    final SharedPreferences prefs = await _prefs;
-    final userId = prefs.getString('userId');
-    // const userId = '6397fe5fbfe53e713a1c10d8';
     final response = await get(
-      Uri.parse('${Endpoint.getArticlesTimeLine}/$userId'),
+      Uri.parse('${Endpoint.getArticlesTimeLine}/63dc6409165337cbbf8a1d8b'),
       headers: Endpoint.$httpHeader,
     );
 
@@ -104,6 +93,4 @@ class HomeController extends GetxController {
       throw Exception('Failed to load Articles Time Line');
     }
   }
-
-
 }

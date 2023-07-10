@@ -1,79 +1,63 @@
+import 'package:eportfolio_mobile/views/components/profile_bar.dart';
+import 'package:eportfolio_mobile/views/pages/GetUser/get-user-page.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILECtrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void main() {
-  runApp(MyApp());
-  final MyController controller = Get.put(MyController());
-}
+class Profile extends StatelessWidget {
+  final profilePageController = Get.find<ProfilePageController>();
 
-class MyApp extends StatelessWidget {
+  Profile({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyPage(),
-    );
-  }
-}
-
-class MyPage extends GetView<MyController> {
-  final MyController controller = Get.find<MyController>();
-  @override
-  Widget build(BuildContext context) {
+    Function(String) $onTapMoreHoriz = (String id) {};
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text('My App'),
-            pinned: true,
-            floating: false,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset('background_image.jpg', fit: BoxFit.cover),
+        appBar: AppBar(
+          title: Text('Profile'),
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              flexibleSpace: FlexibleSpaceBar(
+                background: GetBuilder<CurrentUserController>(
+                  builder: (controller) {
+                    final user = controller.currentUser.value;
+                    return Profile_Bar(
+                      profilePicture: user.profilePicture,
+                      name: user.username,
+                      role: user.role,
+                      major: user.major,
+                      nim: user.nim,
+                      interest: user.interest,
+                      academicField: user.academicField,
+                      following: user.followings,
+                      followers: user.followers,
+                    );
+                  },
+                ),
+              ),
+              expandedHeight: 350,
+              backgroundColor: Colors.white,
+              pinned: true,
+              bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(2),
+                  child: Column(
+                    children: [
+                      TabBar(
+                        tabs: profilePageController.myTabs,
+                        controller: profilePageController.tabController,
+                        labelColor: Colors.black,
+                        isScrollable: true,
+                      ),
+                    ],
+                  )),
             ),
-            bottom: TabBar(
-              controller: controller.tabController,
-              tabs: controller.myTabs,
-            ),
+          ],
+          body: TabBarView(
+            controller: profilePageController.tabController,
+            children: profilePageController.myTabViews,
           ),
-          SliverFillRemaining(
-            child: TabBarView(
-              controller: controller.tabController,
-              children: controller.myTabViews,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MyController extends GetxController with GetSingleTickerProviderStateMixin {
-  late TabController tabController;
-  List<Tab> myTabs = [
-    Tab(text: 'Tab 1'),
-    Tab(text: 'Tab 2'),
-    Tab(text: 'Tab 3'),
-  ];
-
-  List<Widget> myTabViews = [
-    Container(color: Colors.red),
-    Container(color: Colors.green),
-    Container(color: Colors.blue),
-  ];
-
-  @override
-  void onInit() {
-    super.onInit();
-    tabController = TabController(length: myTabs.length, vsync: this);
-  }
-
-  @override
-  void onClose() {
-    tabController.dispose();
-    super.onClose();
+        ));
   }
 }

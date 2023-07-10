@@ -1,15 +1,16 @@
 import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
 import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
 import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/GetxArticle.dart';
 import 'package:eportfolio_mobile/views/pages/GetUser/GetUserCtrl.dart';
+import 'package:eportfolio_mobile/views/pages/PROFILEGetx.dart';
 import 'package:flutter/material.dart';
 
 class ArticleAccountCard extends StatelessWidget {
   /// Kartunya Akun Article
-  final GetUser articleUser;
-  final GetUser currentUser;
-  final Article getArticles;
+  final User articleUser;
+  final User currentUser;
+  final Article article;
   final GestureTapCallback $onTapAccount;
   final VoidCallback $onTapMoreHoriz;
 
@@ -17,7 +18,7 @@ class ArticleAccountCard extends StatelessWidget {
   const ArticleAccountCard({
     super.key,
     required this.articleUser,
-    required this.getArticles,
+    required this.article,
     required this.$onTapAccount,
     required this.currentUser,
     required this.$onTapMoreHoriz,
@@ -49,17 +50,17 @@ class ArticleAccountCard extends StatelessWidget {
                       Row(
                         children: [
                           SubTitleWidget(
-                            data: getArticles.createdAt == 'today'
+                            data: article.createdAt == 'today'
                                 ? 'Today .'
                                 : articleUser.createdAt.toString(),
                           ),
-                          if (!getArticles.isPublic) const LockIcon12(),
+                          if (!article.isPublic) const LockIcon12(),
                         ],
                       )
                     ],
                   ),
                 ),
-                if (getArticles.userId == currentUser.id)
+                if (article.userId == currentUser.id)
                   MoreHorizIcon24($onTapMoreHoriz: $onTapMoreHoriz)
               ],
             ),

@@ -1,16 +1,14 @@
-import 'package:eportfolio_mobile/views/components/cores/text_widget.dart';
-import 'package:eportfolio_mobile/views/components/icons/lock_icon.dart';
-import 'package:eportfolio_mobile/views/components/icons/more_horitz_icon.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/GetxArticle.dart';
+
+import 'package:eportfolio_mobile/views/pages/ContentArticle/GetxArticle.dart';
 import 'package:flutter/material.dart';
 
 class ArticleTitleContainer extends StatelessWidget {
   /// Kartunya Akun Article
-  final Article getArticles;
+  final Article article;
 
   const ArticleTitleContainer({
     super.key,
-    required this.getArticles,
+    required this.article,
   });
 
   @override
@@ -20,14 +18,14 @@ class ArticleTitleContainer extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            getArticles.title,
+            article.title,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 12),
-          if (getArticles.coverArticle != null)
+          if (article.coverArticle != null)
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(getArticles.coverArticle),
+              child: Image.network(article.coverArticle),
             ),
         ],
       ),

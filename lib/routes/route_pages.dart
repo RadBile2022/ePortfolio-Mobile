@@ -1,12 +1,13 @@
 import 'package:eportfolio_mobile/routes/route_names.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/add-article-page.dart';
-import 'package:eportfolio_mobile/views/pages/GetArticles/edit-article-page.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/add-post-page.dart';
-import 'package:eportfolio_mobile/views/pages/GetPosts/edit-post-page.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/add-article-page.dart';
+import 'package:eportfolio_mobile/views/pages/ContentArticle/edit-article-page.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/add-post-page.dart';
+import 'package:eportfolio_mobile/views/pages/ContentPost/edit-post-page.dart';
+
 import 'package:eportfolio_mobile/views/pages/HOME.dart';
 import 'package:eportfolio_mobile/views/pages/HOMECtrl.dart';
 import 'package:eportfolio_mobile/views/pages/LogIn/login.dart';
-import 'package:eportfolio_mobile/views/pages/TABSmain/TABSmain.dart';
+import 'package:eportfolio_mobile/views/pages/TABSmain.dart';
 import 'package:eportfolio_mobile/views/splash-screen.dart';
 import 'package:get/get.dart';
 
